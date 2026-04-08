@@ -703,10 +703,10 @@
   /* =========================================
      📱 모바일 환경 챗봇 UI 최적화 (가림 방지)
      ========================================= */
-  @media screen and (max-width: 768px) {
+ @media screen and (max-width: 768px) {
     .cb-wrap {
-      height: calc(100vh - 140px) !important;
-      min-height: 380px !important;
+      height: 100% !important; /* 강제 고정 높이 해제 */
+      min-height: 0 !important; /* 키보드가 올라올 때 창이 수축할 수 있도록 허용 */
       border-radius: 8px !important;
     }
     #chatbot.section {
@@ -776,6 +776,8 @@
       <button class="tab-btn" onclick="showTab('founder', this)">👨‍💼 설립자 유일한</button>
       <button class="tab-btn" onclick="showTab('wellness', this); initWellness();">🏋️ 웰니스현황</button>
       <button class="tab-btn" onclick="showTab('mbti', this)">🧠 캠퍼스 MBTI</button>
+      <button class="tab-btn" onclick="showTab('ejchul', this)">📱 전자출결</button>
+      <button class="tab-btn" onclick="showTab('gongjul', this)">✅ 공결안내</button>
       <button class="tab-btn" onclick="showTab('chatbot', this)">🤖 AI챗봇</button>
     </div>
   </div>
@@ -818,14 +820,54 @@
     <p>본인의 기 취득 성적이 C⁺, C⁰, D⁺, D⁰, F인 교과목에 대해서는 해당 교과목이 개설되었을 경우 재수강 가능하며, 재수강 취득 성적은 최대 A⁰까지 인정</p>
   </div>
 
-  <div class="card">
-    <div class="section-title"><span class="icon" style="background:#e0f7f6">📱</span>2. 전자출결시스템</div>
-    <p>스마트폰 앱을 활용한 전자출결시스템으로 수강 교과목별 출석 진행</p>
-    <div class="sub-title">사용법</div>
-    <ul>
-      <li>플레이스토어/앱스토어에서 유한대 전자출결(학생용)앱 다운받아 로그인<br><span style="color:#888">(포털ID/PW사용)</span></li>
-      <li>시간표에 지정된 시간 및 강의실에서 블루투스와 인터넷(데이터 사용 권장)을 연결하여 출석체크</li>
-    </ul>
+<div class="card" id="e-attendance">
+    <div class="section-title"><span class="icon" style="background:#e0f7f6">📱</span>전자출결 및 공결 안내</div>
+    
+    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:16px; margin-bottom:16px;">
+      <strong style="color:#1d4ed8; font-size:15px; display:block; margin-bottom:8px;">1. 전자출결시스템(유한출결) 앱 설치</strong>
+      <p style="font-size:13px; color:#555; line-height:1.5; margin-bottom:12px;">
+        수업 출석 체크 및 공결 신청을 위해 <b>반드시 본인 스마트폰 기종에 맞는 앱을 설치</b>해 주세요. (최초 로그인 1회 후 자동 로그인 가능)
+      </p>
+      
+      <div style="display:flex; gap:10px; margin-bottom:12px;">
+        <a href="https://apps.apple.com/fi/app/%EC%9C%A0%ED%95%9C%EC%B6%9C%EA%B2%B0-%ED%95%99%EC%83%9D%EC%9A%A9/id1641039474" target="_blank" 
+           style="flex:1; display:flex; justify-content:center; align-items:center; gap:6px; background:#fff; color:#333; border:1px solid #d1d5db; padding:10px; border-radius:12px; font-size:13px; font-weight:700; text-decoration:none; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" style="width:16px; height:16px;">
+          App Store
+        </a>
+        
+        <a href="https://play.google.com/store/apps/details?id=com.libeka.attendance.ucheckplusstud_yuhan&hl=ko&pli=1" target="_blank" 
+           style="flex:1; display:flex; justify-content:center; align-items:center; gap:6px; background:#fff; color:#333; border:1px solid #d1d5db; padding:10px; border-radius:12px; font-size:13px; font-weight:700; text-decoration:none; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Google Play" style="width:16px; height:16px;">
+          Google Play
+        </a>
+      </div>
+      <ul style="margin:0; padding-left:20px; font-size:13px; color:#444; line-height:1.6;">
+        <li>교수님이 앱으로 수업시작을 누른 후, 앱을 켜고 블루투스로 출석 체크를 진행합니다.</li>
+        <li><b>단순 출결정정:</b> 시스템 오류 등으로 지각/결석 처리된 경우, 담당교수에게 <b>직접 문의</b>하여 오프라인 정정을 요청하세요. (앱으로 공결 신청 시 반려됨)</li>
+      </ul>
+    </div>
+
+    <div style="background:#fefce8; border:1px solid #fef08a; border-radius:10px; padding:16px;">
+      <strong style="color:#a16207; font-size:15px; display:block; margin-bottom:8px;">2. 공결 및 예비군 인정 절차</strong>
+      <div style="font-size:13px; color:#444; line-height:1.6;">
+        <p style="margin-bottom:8px;">
+          결석 사유 발생 시, 수업 운영 시행 지침에서 정한 증빙자료를 <b>출결앱으로 첨부하여 담당교수 승인 후 인정</b>받을 수 있습니다.
+        </p>
+        
+        <strong style="color:#854d0e; font-size:13.5px; display:block; margin-top:12px; margin-bottom:4px;">[예비군 동원/훈련]</strong>
+        <ul style="margin:0; padding-left:20px; margin-bottom:8px;">
+          <li><b>전자출결 사용 교과:</b> 출결앱을 통한 신청 (【예비군 교육훈련 필증】 첨부) → 담당교수 승인 시 자동으로 수업 인정(출석 '○')</li>
+          <li><b>전자출결 미사용 교과</b>(집중이수, 캡스톤디자인 등): 수강생이 과목별 담당교수에게 필증을 직접 제출 → 오프라인 출석부 정정</li>
+        </ul>
+
+        <strong style="color:#854d0e; font-size:13.5px; display:block; margin-top:12px; margin-bottom:4px;">[공결(출석인정) 시 유의사항]</strong>
+        <ul style="margin:0; padding-left:20px;">
+          <li>공결 인정 시수는 전체 수업시수의 <b>4분의 1 이내인 경우만 "출석"으로 인정</b>됩니다.</li>
+          <li>공결을 포함한 결석 시수가 총 수업시수의 4분의 1을 초과할 경우 <b>학점 미부여(F or NP)</b> 처리되므로 유의하시기 바랍니다.</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <div class="card">
@@ -1186,6 +1228,16 @@
       <li><strong>FAX민원:</strong> 주민센터(구, 동사무소) 또는 구청, 정부24 등에서 신청</li>
       <li><strong>인터넷증명발급:</strong> 본교 홈페이지 인터넷 증명발급서비스 통해 신청</li>
     </ul>
+    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+      <a href="https://www.yuhan.ac.kr/ibuilder.do?per_menu_idx=3101&menu_idx=3415&tabCnt=2" target="_blank"
+         style="display:flex; justify-content:center; align-items:center; gap:6px; background:#f8f9ff; color:var(--blue); text-decoration:none; padding:9px; border-radius:8px; font-size:12px; font-weight:700; border:1px solid #eef0f8;">
+        📑 증명발급 상세정보 안내
+      </a>
+      <a href="https://unc.doculink.co.kr/index/activeX.do?GIWANNO=021203" target="_blank"
+         style="display:flex; justify-content:center; align-items:center; gap:6px; background:var(--blue); color:#fff; text-decoration:none; padding:9px; border-radius:8px; font-size:12px; font-weight:700; box-shadow:0 2px 6px rgba(26,63,168,0.2);">
+        🖨️ 인터넷 증명발급 바로가기
+      </a>
+    </div>
   </div>
 
   <div class="card">
@@ -2142,6 +2194,244 @@
 
 </div>
 
+<!-- ★ 전자출결 섹션 ★ -->
+<div id="ejchul" class="section">
+  <div class="hero-card" style="background:linear-gradient(135deg,#1a3fa8,#2bbfb3)">
+    <h2>📱 전자출결시스템 안내</h2>
+    <p>체계적인 학사관리를 위한 전자출결 앱 사용법</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#e8eeff">ℹ️</span>공통 안내사항</div>
+    <div class="highlight" style="margin-bottom:10px">
+      개강일부터 사용 가능 — 교원 및 재학생(신입생 포함) 모두 숙지 필요
+    </div>
+    <div class="sub-title">앱 설치 방법</div>
+    <p style="font-size:12.5px; color:#555; line-height:1.5; margin-bottom:10px;">
+      본인 스마트폰 기종에 맞는 <strong>유한출결 학생용</strong> 앱을 설치해 주세요.
+    </p>
+    <div style="display:flex; gap:10px; margin-bottom:10px;">
+      <a href="https://apps.apple.com/fi/app/%EC%9C%A0%ED%95%9C%EC%B6%9C%EA%B2%B0-%ED%95%99%EC%83%9D%EC%9A%A9/id1641039474" target="_blank"
+         style="flex:1; display:flex; justify-content:center; align-items:center; gap:6px; background:#000; color:#fff; text-decoration:none; padding:10px; border-radius:12px; font-size:12.5px; font-weight:700; box-shadow:0 2px 6px rgba(0,0,0,0.18);">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" style="width:15px; height:15px; filter:invert(1);">
+        App Store
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=com.libeka.attendance.ucheckplusstud_yuhan&hl=ko&pli=1" target="_blank"
+         style="flex:1; display:flex; justify-content:center; align-items:center; gap:6px; background:#34A853; color:#fff; text-decoration:none; padding:10px; border-radius:12px; font-size:12.5px; font-weight:700; box-shadow:0 2px 6px rgba(52,168,83,0.25);">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Google Play" style="width:15px; height:15px;">
+        Google Play
+      </a>
+    </div>
+    <div class="notice" style="font-size:11px;margin-top:2px">앱 버전이 최신이 아닐 경우 반드시 업데이트 후 사용하세요.</div>
+    <div class="sub-title" style="margin-top:12px">주요 절차 요약</div>
+    <ul>
+      <li><strong>최초 로그인 1회 후</strong> 자동 로그인 가능</li>
+      <li><strong>공결 인정:</strong> 증빙자료 출결앱 첨부 → 담당교수 승인 → 자동 반영</li>
+      <li><strong>예비군 수업인정:</strong> 교육필증 출결앱 첨부 → 담당교수 승인 → 출석(○) 인정</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#fff8e1">👨‍🏫</span>교수자 안내</div>
+    <div class="sub-title">APP — 수업시작 버튼</div>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>수업 시작 시 "수업시작" 버튼 클릭</strong>
+          <p>클릭 가능 시간: <strong>수업시작 9분 전 ~ 수업시작 후 14분 59초</strong></p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>수업 중 학생 출결 이상 시 변경 처리</strong>
+          <p>수업시간 내에 처리해야 합니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="highlight orange" style="margin-top:8px">
+      ⚠️ 수업시작 후 <strong>15분 이내에 버튼을 클릭하지 않으면 결강 처리</strong>됩니다.<br>
+      담당교수 임의로 수업시간 단축·변경 불가 (행정감사 지속 지적사항)
+    </div>
+    <div class="sub-title" style="margin-top:12px">WEB — 출석부 확인 방법</div>
+    <ul>
+      <li><strong>임시출석부:</strong> 종합정보시스템 → 수강 → 보고서 → 임시출석부</li>
+      <li><strong>전자출결 출석부:</strong> 유한포털 로그인 → 하단 [전자출결 바로가기] → 교과목 [출석부] → 결석·공결시수 확인</li>
+    </ul>
+    <div class="highlight" style="margin-top:8px">
+      💡 <strong>결석시수 + 공결시수 합계가 총 수업시수의 1/4 초과 시 학점 미부여 (F 또는 NP)</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#e0f7f6">🎓</span>학생(수강생) 안내</div>
+    <div class="sub-title">출석체크 방법</div>
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>수업시간에 출결앱 실행 → "출석체크" 버튼 클릭</strong>
+          <p>블루투스 + 인터넷(데이터 권장) 연결 상태에서 진행</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>연강 수업 주의사항</strong>
+          <p>동일 강의실: 처음 시작할 때만 클릭<br>
+             다른 강의실(이론+실습 등): <strong>강의실 변경 후 다시 클릭 필요</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="sub-title" style="margin-top:12px">출결 기준</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>구분</th><th>시간 기준</th></tr>
+        <tr><td><span class="badge badge-teal">출석</span></td><td>수업시작 <strong>4분 전 ~ 수업시작 후 4분 59초</strong></td></tr>
+        <tr><td><span class="badge badge-yellow">지각</span></td><td>수업시작 후 <strong>5분 ~ 19분 59초</strong></td></tr>
+        <tr><td><span class="badge badge-pink">결석</span></td><td>수업시작 후 <strong>20분 이후</strong></td></tr>
+      </table>
+    </div>
+    <div class="notice" style="font-size:11px;margin-top:6px">퇴실 체크는 없으나, 교수님이 돌발체크(중간 출석 확인)를 실시할 수 있습니다.</div>
+  </div>
+</div>
+
+<!-- ★ 공결안내 섹션 ★ -->
+<div id="gongjul" class="section">
+  <div class="hero-card" style="background:linear-gradient(135deg,#f26522,#e8547a)">
+    <h2>✅ 공결안내</h2>
+    <p>예비군·질병·경조사 등 사유별 출결 변경(공결인정) 신청 방법</p>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#fff0e6">📋</span>공결 신청 구분</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>구분</th><th>결석사유</th><th>신청방법</th></tr>
+        <tr>
+          <td><span class="badge badge-blue">공결인정</span></td>
+          <td>학칙 시행세칙 제30조에 명시된 결석사유</td>
+          <td>전자출결 앱 → 공결인정 신청 + <strong>증빙자료 첨부</strong></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-teal">단순 출결정정</span></td>
+          <td>출석 학생에 대한 지각·결석 처리 오류 (착오, 시스템 오류 등)</td>
+          <td><strong>과목별 담당교수에게 직접 문의</strong> (앱 신청 시 반려)</td>
+        </tr>
+      </table>
+    </div>
+    <div class="highlight orange" style="margin-top:10px">
+      ⚠️ <strong>공결 포함 결석시수가 총 수업시수의 1/4 초과 시 학점 미부여 (F 또는 NP)</strong><br>
+      공결인정 시수는 결석시수 포함하여 강좌당 총 수업시수의 1/4 초과 불가
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#e8eeff">🪖</span>예비군 신청 방법</div>
+    <div class="highlight" style="margin-bottom:10px">
+      예비군은 <strong>공결이 아닌 "출석(○) 인정"</strong>으로 처리됩니다.
+    </div>
+    <div class="sub-title">전자출결 사용 교과</div>
+    <div class="steps">
+      <div class="step-item"><div class="step-num">1</div><div class="step-content"><strong>연강의 경우 1·2·3시수 전체 "결석" 확인 후</strong></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-content"><strong>전자출결 앱 → 예비군 인정 신청</strong><p>【예비군 교육훈련 필증】 첨부 필수</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-content"><strong>담당교수 승인 → 출석(○) 자동 반영</strong></div></div>
+    </div>
+    <div class="sub-title">전자출결 미사용 교과</div>
+    <p style="font-size:12.5px;line-height:1.7;color:#333">집중이수, 팀티칭, 캡스톤디자인, 스텝바이스텝 등은 <strong>담당교수에게 교육훈련 필증 직접 제출</strong> → 교수가 오프라인 출석부에 정정</p>
+    <div class="table-wrap" style="margin-top:8px">
+      <table>
+        <tr><th>훈련 종류</th><th>범위</th></tr>
+        <tr><td>동원훈련</td><td>2박 3일</td></tr>
+        <tr><td>동미참훈련</td><td>2박 3일 또는 32시간</td></tr>
+        <tr><td>기본훈련</td><td>8시간</td></tr>
+        <tr><td>작계훈련</td><td>전반기 6시간 + 후반기 6시간 (총 12시간)</td></tr>
+      </table>
+    </div>
+    <div class="notice" style="font-size:11px;margin-top:6px">예비군 신청 메뉴가 보이지 않으면 전자출결 앱 업데이트 여부를 확인하세요.</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#fde8ef">📄</span>공결인정 사유 및 증빙서류 (학칙 시행세칙 제30조)</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>호</th><th>결석사유</th><th>증빙서류</th></tr>
+        <tr><td>1</td><td>징병검사</td><td>관련 공문서</td></tr>
+        <tr><td>2</td><td>민방위 훈련</td><td>관련 공문서</td></tr>
+        <tr><td>3</td><td>총장이 승인한 학교 공무기간</td><td>관련 공문서</td></tr>
+        <tr><td>4</td><td>본인의 결혼</td><td>청첩장</td></tr>
+        <tr><td>5</td><td>배우자 사망 / 본인(배우자) 부모 사망 / 자녀·형제자매 사망</td><td>사망진단서 및 가족관계 확인서류</td></tr>
+        <tr><td>6</td><td>본인(배우자)의 (증)(외)조부모 사망</td><td>사망진단서 및 가족관계 확인서류</td></tr>
+        <tr><td>7</td><td>본인 질병(사고)으로 입원 또는 이에 상응하는 경우 (법정 전염병 포함)</td><td>입퇴원확인서 또는 진단서 등 의료기관 발행 확인서</td></tr>
+        <tr><td>8</td><td>본인의 출산</td><td>진단서 등 의료기관 발행 확인서</td></tr>
+        <tr><td>9</td><td>배우자의 출산</td><td>진단서 + 가족관계 확인서류</td></tr>
+        <tr><td>10</td><td>졸업예정자의 재학 중 취업</td><td>취업 증빙서류</td></tr>
+        <tr><td>11</td><td>기타 학교에서 인정한 기간</td><td>관련 공문서</td></tr>
+      </table>
+    </div>
+    <div class="sub-title" style="margin-top:12px">질병 내원 시 인정 서류</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>구분</th><th>내용</th></tr>
+        <tr><td><span class="badge badge-teal">인정</span></td><td>진단서, 진단명이 기재된 진료확인서, <strong>처방전 및 통원확인서</strong></td></tr>
+        <tr><td><span class="badge badge-pink">불인정</span></td><td>진료계산서·영수증, 복약안내·약제비계산서, 의료기관 확인 불가 서류</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#e0f7f6">🦠</span>코로나19 · 인플루엔자 감염 공결 처리</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>결석사유</th><th>증빙서류</th><th>공결인정일수</th></tr>
+        <tr><td>감염증 확진자로 분류된 경우</td><td>확진자 확인서 등</td><td>의료기관 진료일만 해당 (검사 당일)<br><span style="color:#e74c3c;font-size:11px">격리기간 공결 인정 불가</span></td></tr>
+        <tr><td>감염 의심으로 신속항원·PCR 검사 실시 (자가키트 제외)</td><td>신속항원·PCR 검사 확인서</td><td>검사 당일만 인정</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#fff8e1">📊</span>출결 성적 예시</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>교과</th><th>총수업시수</th><th>결석(a)</th><th>공결(b)</th><th>합계(a+b)</th><th>결과</th></tr>
+        <tr><td>A (3/3)</td><td>45H</td><td>6H</td><td>6H</td><td>12H</td><td><span class="badge badge-pink">F/NP</span></td></tr>
+        <tr><td>B (2/2)</td><td>30H</td><td>4H</td><td>4H</td><td>8H</td><td><span class="badge badge-pink">F/NP</span></td></tr>
+      </table>
+    </div>
+    <div class="highlight teal" style="margin-top:10px">
+      ✅ 공결 포함 결석시수 ≤ 총 수업시수 1/4 → <strong>출석 인정</strong><br>
+      ❌ 공결 포함 결석시수 &gt; 총 수업시수 1/4 → <strong>학점 미부여 (F 또는 NP)</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><span class="icon" style="background:#e8eeff">📞</span>문의</div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="dept">교무처 학사지원팀</div>
+        <div class="num">02-2610-0312~6</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;">
+      <div class="dept" style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">전자출결 관련</div>
+      <div style="display:flex; gap:8px;">
+        <a href="https://apps.apple.com/fi/app/%EC%9C%A0%ED%95%9C%EC%B6%9C%EA%B2%B0-%ED%95%99%EC%83%9D%EC%9A%A9/id1641039474" target="_blank"
+           style="flex:1; display:flex; justify-content:center; align-items:center; gap:6px; background:#000; color:#fff; text-decoration:none; padding:9px; border-radius:10px; font-size:12px; font-weight:700; box-shadow:0 2px 6px rgba(0,0,0,0.18);">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" style="width:14px; height:14px; filter:invert(1);">
+          App Store
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.libeka.attendance.ucheckplusstud_yuhan&hl=ko&pli=1" target="_blank"
+           style="flex:1; display:flex; justify-content:center; align-items:center; gap:6px; background:#34A853; color:#fff; text-decoration:none; padding:9px; border-radius:10px; font-size:12px; font-weight:700; box-shadow:0 2px 6px rgba(52,168,83,0.25);">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Google Play" style="width:14px; height:14px;">
+          Google Play
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="chatbot" class="section" style="padding:12px">
 
   <div class="cb-wrap">
@@ -2162,10 +2452,13 @@
         <button class="cb-chip" onclick="cbAsk('장학금 종류가 궁금해요')">💰 장학금</button>
         <button class="cb-chip" onclick="cbAsk('휴학 신청 방법을 알려주세요')">🏠 휴학</button>
         <button class="cb-chip" onclick="cbAsk('졸업 요건이 어떻게 되나요?')">🎓 졸업</button>
+        <button class="cb-chip" onclick="cbAsk('등록금 납부 방법을 알려주세요')">💰 등록금</button>
         <button class="cb-chip" onclick="cbAsk('도서관 이용시간이 어떻게 되나요?')">📖 도서관</button>
         <button class="cb-chip" onclick="cbAsk('웰니스스테이션 현재 이용현황 알려줘'); initWellness();">🏋️ 웰니스현황</button>
         <button class="cb-chip" onclick="cbAsk('보건실 위치와 이용방법이 궁금해요')">🏥 보건실</button>
         <button class="cb-chip" onclick="cbAsk('흡연구역이 어디인가요?')">🚬 흡연구역</button>
+        <button class="cb-chip" onclick="cbAsk('전자출결 출석 기준이 어떻게 되나요?')">📱 전자출결</button>
+        <button class="cb-chip" onclick="cbAsk('공결 신청 방법을 알려주세요')">✅ 공결신청</button>
         <button class="cb-chip" onclick="cbAsk('교내 주요 전화번호를 알려주세요')">📞 전화번호</button>
       </div>
     </div>
@@ -2924,6 +3217,133 @@ const localKB = [
             '• <strong>AI영상센터/AI헬스케어:</strong> 02-2610-0846 / 0710' +
             '</div></div>'
   },
+/* 💰 등록금 관련 종합 안내 (PPT 원본 텍스트 100% 유지 + 시인성 강화 탭) */
+  {
+    keywords: ['등록', '등록금', '등록금납부', '납부방법', '가상계좌', '입금자명', '카드결제', '카드납부', '신용카드', '분할입금', '고지서', '납부확인', '0원', '전액장학금', '분할납부', '분납', '현금영수증', '연말정산', '교육비'],
+    answer: '💰 <strong style="font-size:15px; color:var(--blue);">등록금 관련 종합 안내입니다.</strong><br><br>' +
+            
+            /* 1번 항목: 파란색 계열 */
+            '<div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:14px; margin-bottom:10px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#1d4ed8;">1. 등록금 납부</strong><br>' +
+            '• <b>Q. 등록금을 꼭 은행에 가서 납부해야 하나요?</b><br>' +
+            '  A. [가상계좌 납부 방법] 인터넷뱅킹, ATM, 폰뱅킹, 전국 모든 은행창구 등을 이용하여 입금 가능합니다. 타 은행에서 송금할 경우 수수료가 부과될 수 있습니다.<br>' +
+            '• <b>Q. 입금자명은 학생 이름으로 해야 하나요?</b><br>' +
+            '  A. 가상계좌는 학생별로 지정 계좌번호를 다르게 부여합니다. 지정 계좌로 이체 시 학생 본인 외 부모 등 타인 명의로 입금하셔도 등록됩니다.<br>' +
+            '• <b>Q. 등록금액 분할 입금이 가능한가요?</b><br>' +
+            '  A. 등록금 고지서 실납부액 전액을 일괄 입금해야 합니다. 자치비를 납부하는 경우, 등록금금액과 합산하여 등록금 지정계좌에 입금해야 합니다.<br>' +
+            '• <b>Q. 등록금 카드 납부가 가능한가요?</b><br>' +
+            '  A. 등록금 카드납부제는 시행하지 않고 있습니다. 분할납부제를 신청할 수 있습니다.' +
+            '</div>' +
+
+            /* 2번 항목: 초록색 계열 */
+            '<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:14px; margin-bottom:10px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#15803d;">2. 고지서 출력 및 납부 확인</strong><br>' +
+            '• <b>Q. 등록금 고지서는 어디서 출력해야 하나요?</b><br>' +
+            '  A. 유한대학교 포털시스템 접속 ⇒ 포털시스템 로그인 ⇒ 상단에 종합정보 ⇒ 왼쪽 메뉴에 등록 ⇒ 고지서출력(학생용)<br>' +
+            '• <b>Q. 등록금 납부 후 확인은 어디에서 가능한가요?</b><br>' +
+            '  A. 등록금 납부 다음날 10:00이후 홈페이지 확인 : 유한대학교 포털시스템 접속 ⇒ 포털시스템 ⇒ 종합정보 ⇒ 등록 ⇒ 등록금 납부확인서(학생)' +
+            '</div>' +
+
+            /* 3번 항목: 노란색 계열 */
+            '<div style="background:#fefce8; border:1px solid #fef08a; border-radius:10px; padding:14px; margin-bottom:10px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#a16207;">3. 전액 장학금 (0원) 등록</strong><br>' +
+            '• <b>Q. 전액 장학금을 받아서 등록금이 0원(실납부액)입니다. 어떻게 등록 하나요?</b><br>' +
+            '  A. 1. 자치비를 가상계좌로 입금<br>' +
+            '     2. 국민은행 인터넷뱅킹 > 공과금 > 대학 등록금> [등록금납부] 메뉴에서 등록 처리<br>' +
+            '     3. 유한대학교포털시스템 > 종합정보 > 등록 > 고지서출력(학생용) > 우측 상단 [0원 대상자 등록] 메뉴에서 등록 처리' +
+            '</div>' +
+
+            /* 4번 항목: 보라색 계열 */
+            '<div style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:10px; padding:14px; margin-bottom:10px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#6b21a8;">4. 등록금 분할납부제 안내</strong><br>' +
+            '• <b>Q. 분할납부는 언제, 어떻게 신청 하나요?</b><br>' +
+            '  A. 1. 신청기간 : 대학 홈페이지 공지사항 확인 (등록금 납부기간 이전에 신청 접수)<br>' +
+            '     2. 신청방법 : 종합정보시스템에서 등록 메뉴 선택 ⇒ 등록금분할납부신청 선택 ⇒ 횟수 선택 (2~4회) ⇒ 하단에 분할납부 신청 아이콘 선택 ⇒ 분할납부신청 완료<br><br>' +
+            '• <b>(신청안내)</b><br>' +
+            '  - <b>신청대상:</b> 가계 곤란 등으로 등록 기간 내에 등록금 전액을 납부하지 못할 부득이한 사유가 있어 분할 납부를 신청한 학생<br>' +
+            '    (* 단 장학금 수혜자 중 등록금의 50% 초과 수혜자, 10학점 미만 수강신청자, 신입생은 신청대상에서 제외(신입생은 1학년 2학기부터 신청가능))<br>' +
+            '  - <b>신청 가능 인원:</b> 학과별 입학정원의 50%이내<br>' +
+            '  - <b>신청기간:</b> 2026.2.19.(목) 10시 ~ 2026.2.20.(금) 16시<br>' +
+            '  - <b>등록기간:</b> [1차] 2026.2.23(월)~26(목) 9:00 ~ 16:00 / [2차] 2026.3.23(월)~24(화) 9:00 ~ 16:00 / [3차] 2026.4.20(월)~21(화) 9:00 ~ 16:00 / [4차] 2026.5.18(월)~19(화) 9:00 ~ 16:00<br>' +
+            '  - <b>분할납부 횟수:</b> 2~4회 중 본인이 선택<br>' +
+            '  - <b>납부은행:</b> 국민은행 전국지점<br>' +
+            '  - <b>등록금 고지서:</b> 개별 발송을 하지 않으니, 종합정보시스템에서 직접 출력<br>' +
+            '  - <b>| 분할납부자의 학적 조치 |</b><br>' +
+            '    가. 최초 1회 분납금은 필히 소정의 등록기간 중에 지정은행에 납부하여야 하며, 등록기간중에 납부하지 않을 경우 분납 자격을 상실하게 되어 학칙 제21조에 의거 제적처리 대상이 됨<br>' +
+            '      ※ 1차 납입금을 내지 않을 시 분할납부 취소 처리되며, 2회 납부일자에 전액을 납부한다.<br>' +
+            '    나. 정해진 2회에 미납부하여 제적될 경우 1회에 기 납부한 분납금은 일체 반환하지 않음. 단 2회 분납기간이 경과하기 전에 중도 자퇴 할 경우에는 대학등록금에 관한 규칙 제6조에 의거 일부를 감한 후 반환함.<br>' +
+            '    다. 등록금 분납대상자는 해당 학기 휴학(일반휴학, 군입대휴학)이 불가하나, 부득이한 사정으로 휴학할 경우에는 미납부한 등록금 잔액을 완납 후 학적변동 처리 가능함.' +
+            '</div>' +
+
+            /* 5번 항목: 분홍색 계열 */
+            '<div style="background:#fdf2f8; border:1px solid #fbcfe8; border-radius:10px; padding:14px; margin-bottom:10px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#be185d;">5. 현금영수증 및 연말정산(교육비)</strong><br>' +
+            '• <b>Q. 등록금 납부에 대한 현금영수증이 발행이 가능한가요?</b><br>' +
+            '  A. 대학 등록금은 현금영수증 발행대상이 아닙니다. 대학생 자녀의 등록금은 연말정산 교육비 공제가 가능합니다.<br>' +
+            '• <b>Q. 등록금 연말정산 신청 방법이 궁금합니다</b><br>' +
+            '  A. 국세청 홈텍스 연말정산 신청시, 미성년 자녀의 경우 자녀의 동의없이 자료제공이 가능합니다. 하지만 성년 자녀의 경우, 핸드폰 인증 등 자료제공 동의 진행만 하면 국세청 홈텍스에서 간편하게 연말정산이 가능합니다.<br>' +
+            '• <b>Q. 교육비 납입증명서는 어떻게 신청하나요?</b><br>' +
+            '  A. 1. 대학 방문 : 유재라관 1층 자동발급기 이용(즉시발급)<br>' +
+            '     2. 인터넷 발급 : 증명발급센터 홈페이지(https://unc.doculink.co.kr) 포탈 ID/PW 로 로그인 ⇒ 직접 출력<br>' +
+            '     3. 어디서나 민원발급 : 전자정부홈페이지(http://www.gov.kr) 에서 신청 후 교부기관을 선택하여 수령' +
+            '</div>' +
+            
+            /* 6번 항목: 회색 계열 (연락처 및 공지사항) */
+            '<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#475569;">6. 기타 문의 및 공지사항</strong><br>' +
+            '• <b>Q. 등록금 관련 궁금한 사항을 어디에서 확인 가능한가요?</b><br>' +
+            '  A. 유한대학교 홈페이지(https://www.yuhan.ac.kr) 공지사항에서 확인하세요. (유한대학교 대학 홈페이지 > 유한광장 > 캠퍼스공지 > 공지사항)<br><br>' +
+            '📞 <strong>업무별 문의처 안내</strong><br>' +
+            '• <b>등록금 (총무회계팀) :</b> T. 02-2610-0463, 02-2610-0462<br>' +
+            '• <b>장학금 / 학자금대출 (학생복지팀) :</b> T. 02-2610-0332, 02-2610-0331<br>' +
+            '• <b>학사 안내(휴복학/재입학 등) (학사지원팀) :</b> T. 02-2610-0314, 02-2610-0313' +
+            '</div>'
+  },
+
+/* 💰 학과별 등록금 안내 (2026-1학기 기준) */
+  {
+    keywords: ['등록금액', '얼마', '등록금얼마', '징수액', '학과등록금', '계열등록금'],
+    answer: '💰 <strong style="font-size:15px; color:var(--blue);">2026학년도 1학기 학과(계열)별 등록금 안내입니다.</strong><br><br>' +
+            
+            /* 안내 문구 */
+            '<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:10px; font-size:13px; color:#333;">' +
+            '등록금은 <b>계열별, 학년별로 금액이 상이</b>합니다. (단위: 원 / 자치비 포함 납입 총액 기준)<br>' +
+            '본인 학과의 계열을 확인하신 후 아래 금액을 참고해 주세요.' +
+            '</div>' +
+
+            /* 학년별 금액 요약 탭 */
+            '<div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:14px; margin-bottom:10px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#1d4ed8;">📌 계열별 납입 총액 (등록금+자치비)</strong><br><br>' +
+            '<b>[1학년]</b><br>' +
+            '• 인문사회B: 3,319,000<br>' +
+            '• 인문사회A: 3,412,000<br>' +
+            '• 공학/예능: 3,666,000<br>' +
+            '• 자연과학A: 3,758,000<br>' +
+            '• 자연과학B: 3,864,000<br><br>' +
+            '<b>[2, 3학년]</b><br>' +
+            '• 인문사회B: 3,006,000<br>' +
+            '• 인문사회A: 3,097,000<br>' +
+            '• 공학/예능: 3,345,000<br>' +
+            '• 자연과학A: 3,434,000<br>' +
+            '• 자연과학B: 3,538,000<br><br>' +
+            '<b>[학사학위 전공심화 (자치비 해당없음)]</b><br>' +
+            '• 인문사회B (1,2학년): 3,154,000<br>' +
+            '• 인문사회A (1,2학년): 3,247,000<br>' +
+            '• 공학/예능 (1,2학년): 3,401,000<br>' +
+            '• 공학/예능 (1학년): 3,501,000<br>' +
+            '• 자연과학 (1학년): 3,699,000' +
+            '</div>' +
+
+            /* 계열별 소속 학과 안내 */
+            '<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:14px; font-size:13px;">' +
+            '<strong style="font-size:14px; color:#15803d;">🔍 학과별 계열 분류</strong><br>' +
+            '• <b>인문사회B:</b> 글로벌관광학과(일본비즈니스전공), 경영학과(경영정보전공, 세무회계전공), 건강웰니스학과(사회복지전공)<br>' +
+            '• <b>인문사회A:</b> 글로벌관광학과(호텔관광전공), 보건의료행정학과, 항공서비스학과<br>' +
+            '• <b>자연과학A:</b> 식품영양학과, 의료뷰티학과(피부메이크업전공, 뷰티화장품전공), 작업치료과, 응급구조과<br>' +
+            '• <b>자연과학B:</b> 호텔외식조리학과(호텔조리전공, 카페베이커리전공), 유한생명바이오학과(유한바이오제약전공, 유한생명화공전공), 반려동물보건학과, 건강웰니스학과(스포츠재활전공, 반려동물산업전공), 치위생과<br>' +
+            '<br>※ 복학생, 유급생의 세부 금액 등 정확한 징수액표는 포털시스템 또는 학과 사무실을 통해 확인해 주시기 바랍니다.' +
+            '</div>'
+  },
   {
     keywords: ['장학금', '장학', '장학금종류', '교내장학', '국가장학금', '장학금신청', '저소득장학', '한국장학재단'],
     answer: '💰 <strong style="font-size:14.5px; color:var(--blue);">교내·외 장학금 전체 안내</strong><br><br>' +
@@ -3035,52 +3455,146 @@ const localKB = [
             '건강하고 평등한 캠퍼스 문화를 조성하기 위해 학생인권, 교직원인권 보호, 갑질신고 접수 및 성관련(성희롱, 성폭력, 성추행 등) 고충 상담과 예방 교육을 담당합니다.<br><br>' +
             '• <strong>인권센터 고충상담:</strong> 02-2610-0371'
   },
-  {
+{
     keywords: ['전화번호', '주요전화', '연락처', '부서전화', '문의', '안내', '번호'],
-    answer: '📞 <strong style="font-size:14.5px; color:var(--blue);">교내 주요 부서 연락처 총정리</strong><br><br>' +
-            '<div style="overflow:hidden; border-radius:10px; border:1px solid #eef0f8; box-shadow:0 2px 6px rgba(26,63,168,0.05);">' +
-            '<table style="width:100%; font-size:12.5px; border-collapse:collapse; text-align:left; margin:0;">' +
-            '<tr style="background:var(--blue); color:#fff;">' +
-            '<th style="padding:9px 12px; font-weight:600; border-right:1px solid rgba(255,255,255,0.15);">부서명 (주요업무)</th>' +
-            '<th style="padding:9px 12px; font-weight:600;">전화번호</th>' +
-            '</tr>' +
-            '<tr style="background:#fff; border-bottom:1px solid #eef0f8;">' +
-            '<td style="padding:9px 12px; border-right:1px solid #eef0f8;"><strong>교무처</strong><br><span style="font-size:11px; color:var(--text-muted);">수강 / 성적 / 휴학</span></td>' +
-            '<td style="padding:9px 12px; color:var(--blue); font-weight:800; font-size:13px;">02-2610-0312~6</td>' +
-            '</tr>' +
-            '<tr style="background:#f8f9ff; border-bottom:1px solid #eef0f8;">' +
-            '<td style="padding:9px 12px; border-right:1px solid #eef0f8;"><strong>입학·학생처</strong><br><span style="font-size:11px; color:var(--text-muted);">장학 / 대출 / 동아리</span></td>' +
-            '<td style="padding:9px 12px; color:var(--blue); font-weight:800; font-size:13px;">02-2610-0330~2</td>' +
-            '</tr>' +
-            '<tr style="background:#fff; border-bottom:1px solid #eef0f8;">' +
-            '<td style="padding:9px 12px; border-right:1px solid #eef0f8;"><strong>일자리지원처</strong><br><span style="font-size:11px; color:var(--text-muted);">취업 / 진로 / 자소서</span></td>' +
-            '<td style="padding:9px 12px; color:var(--blue); font-weight:800; font-size:13px;">02-2610-0422~5</td>' +
-            '</tr>' +
-            '<tr style="background:#f8f9ff; border-bottom:1px solid #eef0f8;">' +
-            '<td style="padding:9px 12px; border-right:1px solid #eef0f8;"><strong>학생상담센터</strong><br><span style="font-size:11px; color:var(--text-muted);">심리 / 마음건강</span></td>' +
-            '<td style="padding:9px 12px; color:var(--blue); font-weight:800; font-size:13px;">02-2610-0356~7</td>' +
-            '</tr>' +
-            '<tr style="background:#fff;">' +
-            '<td style="padding:9px 12px; border-right:1px solid #eef0f8;"><strong>도서관</strong><br><span style="font-size:11px; color:var(--text-muted);">도서대출 / 열람실</span></td>' +
-            '<td style="padding:9px 12px; color:var(--blue); font-weight:800; font-size:13px;">02-2610-0340~2</td>' +
-            '</tr>' +
-            '</table>' +
+    answer: '📞 <strong style="font-size:14.5px; color:var(--blue);">교내 주요 부서 연락처</strong><br><br>' +
+            '<div style="background:#fff; border-radius:10px; border:1px solid #eef0f8; box-shadow:0 2px 6px rgba(26,63,168,0.05); overflow:hidden;">' +
+            
+            // 1. 교무처
+            '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid #eef0f8;">' +
+            '  <div><strong style="font-size:13px; color:#333;">교무처</strong><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">수강 / 성적 / 휴학</div></div>' +
+            '  <a href="tel:02-2610-0312" style="font-size:12px; font-weight:800; color:var(--blue); text-decoration:none; background:#f0f4ff; padding:6px 10px; border-radius:6px; white-space:nowrap;">📞 02-2610-0312</a>' +
+            '</div>' +
+            
+            // 2. 입학학생처
+            '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid #eef0f8; background:#f8f9ff;">' +
+            '  <div><strong style="font-size:13px; color:#333;">입학·학생처</strong><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">장학 / 대출 / 천원의 아침밥 / 동아리</div></div>' +
+            '  <a href="tel:02-2610-0330" style="font-size:12px; font-weight:800; color:var(--blue); text-decoration:none; background:#fff; padding:6px 10px; border-radius:6px; border:1px solid #eef0f8; white-space:nowrap;">📞 02-2610-0330</a>' +
+            '</div>' +
+            
+            // 3. 일자리지원처
+            '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid #eef0f8;">' +
+            '  <div><strong style="font-size:13px; color:#333;">일자리지원처</strong><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">취업 / 진로 / 자소서</div></div>' +
+            '  <a href="tel:02-2610-0422" style="font-size:12px; font-weight:800; color:var(--blue); text-decoration:none; background:#f0f4ff; padding:6px 10px; border-radius:6px; white-space:nowrap;">📞 02-2610-0422</a>' +
+            '</div>' +
+            
+            // 4. 학생상담센터
+            '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid #eef0f8; background:#f8f9ff;">' +
+            '  <div><strong style="font-size:13px; color:#333;">학생상담센터</strong><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">심리 / 마음건강</div></div>' +
+            '  <a href="tel:02-2610-0356" style="font-size:12px; font-weight:800; color:var(--blue); text-decoration:none; background:#fff; padding:6px 10px; border-radius:6px; border:1px solid #eef0f8; white-space:nowrap;">📞 02-2610-0356</a>' +
+            '</div>' +
+
+            // 5. 대외협력처 (새로 추가됨!)
+            '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid #eef0f8;">' +
+            '  <div><strong style="font-size:13px; color:#333;">대외협력처</strong><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">국제교류 / 해외연수 / 글로벌직무연수 / 어학프로그램 / 외국인 /봉사(해외봉사)</div></div>' +
+            '  <a href="tel:02-2610-0411" style="font-size:12px; font-weight:800; color:var(--blue); text-decoration:none; background:#f0f4ff; padding:6px 10px; border-radius:6px; white-space:nowrap;">📞 02-2610-0411</a>' +
+            '</div>' +
+            
+            // 6. 도서관
+            '<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:#f8f9ff;">' +
+            '  <div><strong style="font-size:13px; color:#333;">도서관</strong><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">도서대출 / 열람실</div></div>' +
+            '  <a href="tel:02-2610-0340" style="font-size:12px; font-weight:800; color:var(--blue); text-decoration:none; background:#fff; padding:6px 10px; border-radius:6px; border:1px solid #eef0f8; white-space:nowrap;">📞 02-2610-0340</a>' +
+            '</div>' +
+            
             '</div>' +
             '<div style="margin-top:12px; padding:10px 12px; background:#fff3e8; border-radius:8px; border-left:3px solid var(--orange); font-size:11.5px; color:#7a2e00; line-height:1.5;">' +
-            '💡 <strong>"기계공학과"</strong>, <strong>"항공서비스학과"</strong>처럼 학과 이름을 직접 검색하시면 정확한 위치와 번호를 알려드립니다!</div>'
-  },
-  {
-    keywords: ['흡연구역', '담배', '흡연', '흡연장', '스모킹', '금연', '담배피는'],
-    answer: '🚬 <strong style="font-size:14.5px; color:var(--blue);">교내 흡연구역 안내</strong><br><br>' +
+            '💡 <strong>"기계공학과"</strong>, <strong>"항공서비스학과"</strong>처럼 학과 이름을 직접 검색하시면 정확한 번호를 알려드립니다!</div>'
+  }, 
+
+{
+    keywords: ['흡연구역', '담배', '흡연', '흡연장', '스모킹', '금연', '담배피는', '금연클리닉'],
+    answer: '🚬 <strong style="font-size:14.5px; color:var(--blue);">교내 흡연구역 및 금연클리닉 안내</strong><br><br>' +
             '쾌적한 캠퍼스 환경을 위해 유한대학교의 모든 장소는 원칙적으로 <strong>금연구역</strong>이며, 지정된 장소에서만 흡연이 가능합니다.<br><br>' +
-            '<div style="background:#fff7f0; padding:12px; border-radius:8px; border-left:4px solid var(--orange); font-size:12.5px; line-height:1.7;">' +
+            
+            // 1. 기존 흡연구역 안내
+            '<div style="background:#fff7f0; padding:12px; border-radius:10px; border-left:4px solid var(--orange); font-size:12.5px; line-height:1.7; margin-bottom:12px;">' +
             '<strong>📍 지정 흡연구역 위치</strong><br>' +
             '• 1호관 옥상 (2호관 쪽)<br>' +
             '• 2호관 옥상 (1호관 쪽)<br>' +
             '• 5호관 옥상 (4호관 쪽)<br>' +
             '• 7호관 옥상<br>' +
             '• 1호관 1층 EV 앞 흡연부스<br>' +
-            '• 8호관 옥상</div>'
+            '• 8호관 옥상' +
+            '</div>' +
+
+            // 2. 신규 금연클리닉 안내 (산뜻한 녹색 테마)
+            '<div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:14px; border-radius:10px; box-shadow:0 2px 6px rgba(34,197,94,0.06);">' +
+            '<div style="color:#15803d; font-size:13px; font-weight:800; margin-bottom:8px; border-bottom:1px dashed #bbf7d0; padding-bottom:6px;">🌱 2026학년도 1학기 금연클리닉 (무료)</div>' +
+            '<div style="font-size:12px; color:#333; line-height:1.6;">' +
+            '건강증진을 위해 전액 무상으로 금연 프로그램을 지원합니다!<br><br>' +
+            '• <strong>일시:</strong> 4, 5, 6월 매주 화요일 (총 7차) 13:00~15:00<br>' +
+            '<span style="color:#666; font-size:11px;">&nbsp;&nbsp;※ 세부일정: 4/7, 4/14, 4/28, 5/12, 5/19, 5/26, 6/2</span><br>' +
+            '• <strong>장소:</strong> 유일한 기념관(7호관) 4층 NEW SQUARE<br>' +
+            '• <strong>내용:</strong> 전문상담 및 보조제(패치, 껌 등) 무상 제공<br>' +
+            '🎁 <strong>성공포상:</strong> 6개월 성공 시 <strong>문화상품권</strong> 지급!<br><br>' +
+            '📞 <strong>문의:</strong> <a href="tel:02-2610-0335" style="color:#15803d; font-weight:800; text-decoration:none; background:#dcfce7; padding:4px 8px; border-radius:6px;">보건실 (02-2610-0335)</a>' +
+            '</div>' +
+            '</div>'
+  },
+{
+    keywords: ['대학교', '건학이념', '교육목표', '비전', '인재상', '유일한', '유일한박사', '유한대', '유한대학교', '학교소개', '이념'],
+    answer: '🎓 <strong style="font-size:14.5px; color:var(--blue);">유한대학교 대학이념 및 비전</strong><br><br>' +
+            
+            // 건학이념
+            '<div style="background:#f8f9ff; padding:12px; border-radius:10px; border-left:4px solid var(--blue); margin-bottom:10px; font-size:12.5px; line-height:1.6; box-shadow:0 2px 6px rgba(26,63,168,0.05);">' +
+            '<strong style="color:var(--blue); font-size:13px;">🌱 건학이념 (유일한 박사)</strong><br>' +
+            '<span style="color:#333;">"기업에서 얻은 이익은 그 기업을 키워 준 사회에 환원한다."</span>' +
+            '</div>' +
+            
+            // 교육목표
+            '<div style="background:#fff7f0; padding:12px; border-radius:10px; border-left:4px solid var(--orange); margin-bottom:10px; font-size:12.5px; line-height:1.6; box-shadow:0 2px 6px rgba(242,101,34,0.05);">' +
+            '<strong style="color:var(--orange); font-size:13px;">🎯 교육목표</strong><br>' +
+            '<span style="color:#333;">성실한 인간, 투철한 사명감, 뛰어난 능력</span>' +
+            '</div>' +
+            
+            // 비전
+            '<div style="background:#e0f7f6; padding:12px; border-radius:10px; border-left:4px solid var(--teal); margin-bottom:10px; font-size:12.5px; line-height:1.6; box-shadow:0 2px 6px rgba(43,191,179,0.05);">' +
+            '<strong style="color:var(--teal); font-size:13px;">🔭 비전</strong><br>' +
+            '<span style="color:#333;">사람·기술·산업의 연계로 쓰임의 가치를 창출하는 실무중심 대학교</span>' +
+            '</div>' +
+            
+            // 인재상
+            '<div style="background:#fff0f3; padding:12px; border-radius:10px; border-left:4px solid var(--pink); font-size:12.5px; line-height:1.6; box-shadow:0 2px 6px rgba(232,84,122,0.05);">' +
+            '<strong style="color:var(--pink); font-size:13px;">🌟 인재상</strong><br>' +
+            '<ul style="margin:4px 0 0 0; padding-left:16px; color:#333;">' +
+            '<li style="margin-bottom:4px;">바른 인성으로 봉사하고 실천하는 인재</li>' +
+            '<li style="margin-bottom:4px;">웰니스 산업분야의 융합 지식을 갖춘 창의 인재</li>' +
+            '<li>현장실무 능력을 바탕으로 도전하고 협업하는 인재</li>' +
+            '</ul>' +
+            '</div>'
+  },
+// 1. 총장 인사말 (이미지 제외, 텍스트 깔끔 디자인)
+  {
+    keywords: ['총장', '총장님', '인사말', '총장인사말', '총장님인사말', '장은영'],
+    answer: '<div style="background:#fff; border-radius:10px; border:1px solid #eef0f8; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">' +
+            '<strong style="font-size:15px; color:var(--blue); display:block; margin-bottom:14px; text-align:center; border-bottom:2px solid #eef0f8; padding-bottom:10px;">유한대학교 제8대 총장 인사말</strong>' +
+            '<div style="font-size:12.5px; line-height:1.7; color:#444; word-break:keep-all;">' +
+            '<strong style="color:var(--text); font-size:13px;">"창의력과 기술을 겸비한, 올바른 직업관을 가진 전문 기술인 양성의 산실"</strong><br><br>' +
+            '유한대학교가 새로운 시대, 미래 인재를 키우는 요람이 되겠습니다.<br><br>' +
+            '유한대학교는 설립자 유일한 박사님의 <strong>\'기업의 사회환원\'</strong>이라는 건학이념으로 세워진 대학입니다. 지난 반세기 동안 유한대학교는 <strong>\'쓰임의 교육\'</strong>을 실천하며, 산업과 지역사회에 기여하는 실무인재를 양성해 왔습니다.<br><br>' +
+            '이제 우리는 디지털 전환, 인공지능 기술의 비약적 발전, 학령인구 감소 등 빠른 변화의 물결 속에 서 있습니다. 이러한 전환기 속에서 유한대학교는 새로운 50년을 준비하는 대도약의 길목에 서 있습니다.<br><br>' +
+            '디지털 리터러시, 인공지능, ESG 등 미래 핵심 역량을 반영한 교육 혁신과 평생직업교육 고도화를 통해 학생과 지역사회의 성장을 지원하고 있습니다. 또한 외국 대학과의 협력 확대 등 글로벌 캠퍼스 구현을 통해 세계와 소통하는 인재를 양성하고 있습니다.<br><br>' +
+            '설립자의 정신을 오늘의 시대적 가치로 계승하며, <strong>\'교육의 사회적 가치 실현\'</strong>이라는 사명을 흔들림 없이 이어가겠습니다. 앞으로도 우리 대학이 만들어갈 변화와 도전의 길에 깊은 관심과 성원을 부탁드립니다.<br>감사합니다.' +
+            '</div>' +
+            '<div style="text-align:right; margin-top:16px; border-top:1px dashed #dde3ff; padding-top:12px; font-weight:800; color:#333; font-size:13px;">' +
+            '유한대학교 제8대 총장 장은영' +
+            '</div>' +
+            '</div>'
+  },
+
+  // 2. 이메일/MS오피스 휴면 계정 안내
+  {
+    keywords: ['휴면계정', '휴먼계정', '계정중지', '계정잠김', '이메일잠김', '이메일중지', 'ms계정', '마이크로소프트', '구글게스트', '계정정지', 'workspace', 'gsuite', '로그인중지', '비활성화', '계정활성화', '오피스잠김'],
+    answer: '🔒 <strong style="font-size:14.5px; color:var(--pink);">이메일 및 오피스 계정 잠김(비활성화) 안내</strong><br><br>' +
+            '<div style="background:#fff0f3; padding:14px; border-radius:12px; border-left:4px solid var(--pink); line-height:1.6; font-size:12.5px; color:#333;">' +
+            '구글 G suite 및 MS 오피스 학교 계정은 <strong>장기간 미접속(2년 이상)</strong> 시 자동으로 비활성화(잠김) 처리되고 있습니다.<br><br>' +
+            '<strong style="color:#e8547a;">💡 계정 복구(활성화) 방법</strong><br>' +
+            '1. <strong>유한포털 Q&A 게시판</strong>에 활성화 요청 글 작성<br>' +
+            '2. 또는 <strong>지식정보팀</strong>으로 직접 전화 문의<br><br>' +
+            '문의해 주시면 지식정보팀에서 확인 후 라이선스를 즉시 다시 활성화 처리해 드립니다.<br><br>' +
+            '활성화 후 사용해 보시고 계속해서 이상이 발생한다면 주저하지 말고 아래로 연락해 주세요!<br><br>' +
+            '📞 <strong>지식정보팀:</strong> <a href="tel:02-2610-0340" style="color:var(--blue); font-weight:800; text-decoration:none;">02-2610-0340</a>' +
+            '</div>'
   },
   {
     keywords: ['학사일정', '일정', '개강', '종강', '방학', '시험기간', '중간고사', '기말고사', '학사달력'],
@@ -3228,11 +3742,52 @@ const localKB = [
             '</div>'
   },
 {
-    keywords: ['전자출결', '출석', '모바일학생증', '학생증', '대출증', '스마트폰출석', '출결앱', '어플'],
-    answer: '📱 <strong>스마트폰 앱 활용 안내</strong><br><br>' +
-            '• <strong>전자출결:</strong> 유한대 전자출결(학생용) 앱 다운로드 후 강의실에서 블루투스/데이터로 출석 체크<br>' +
-            '• <strong>모바일 학생증:</strong> 모바일 학생증 앱에서 직접 신청 (도서열람, 보건실 등에서 사용)<br>' +
-            '• <strong>모바일 대출증:</strong> 유한대 도서관 앱에서 발급 (60초 이내 발급된 바코드만 유효)'
+    keywords: ['전자출결', '전자출결앱', '출결앱', '출석체크', '출결체크', '스마트폰출석', '출결기준', '지각기준', '수업시작버튼', '모바일학생증', '학생증', '대출증', '어플'],
+    answer: '📱 <strong>전자출결시스템 안내</strong><br><br>' +
+            '<div style="background:#f8f9ff; padding:12px; border-radius:10px; border-left:4px solid var(--blue); font-size:12.5px; line-height:1.8;">' +
+            '<strong>📲 앱 설치 (유한출결 학생용)</strong><br>' +
+            '<div style="display:flex; gap:8px; margin:8px 0;">' +
+            '<a href="https://apps.apple.com/fi/app/%EC%9C%A0%ED%95%9C%EC%B6%9C%EA%B2%B0-%ED%95%99%EC%83%9D%EC%9A%A9/id1641039474" target="_blank" style="flex:1; display:flex; justify-content:center; align-items:center; gap:5px; background:#000; color:#fff; text-decoration:none; padding:8px; border-radius:8px; font-size:11.5px; font-weight:700;">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" style="width:13px; height:13px; filter:invert(1);"> App Store</a>' +
+            '<a href="https://play.google.com/store/apps/details?id=com.libeka.attendance.ucheckplusstud_yuhan&hl=ko&pli=1" target="_blank" style="flex:1; display:flex; justify-content:center; align-items:center; gap:5px; background:#34A853; color:#fff; text-decoration:none; padding:8px; border-radius:8px; font-size:11.5px; font-weight:700;">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg" alt="Play" style="width:13px; height:13px;"> Google Play</a>' +
+            '</div>' +
+            '• 교수자: <strong>유한출결 교수용</strong> (플레이스토어/앱스토어 검색)<br><br>' +
+            '<strong>⏱️ 출결 기준 (학생)</strong><br>' +
+            '• 출석: 수업시작 <strong>4분 전 ~ 수업시작 후 4분 59초</strong><br>' +
+            '• 지각: 수업시작 후 <strong>5분 ~ 19분 59초</strong><br>' +
+            '• 결석: 수업시작 후 <strong>20분 이후</strong><br><br>' +
+            '<strong>📌 교수자 수업시작 버튼</strong><br>' +
+            '수업시작 9분 전 ~ 수업시작 후 14분 59초 이내 클릭 가능<br>' +
+            '⚠️ 15분 이내 미클릭 시 <strong>결강 처리</strong>' +
+            '</div>' +
+            '<div style="margin-top:8px; font-size:11.5px; color:var(--text-muted);">💡 앱 버전이 최신이 아닐 경우 반드시 업데이트 후 사용하세요.</div>'
+  },
+  {
+    keywords: ['공결', '공결인정', '공결신청', '공결방법', '결석인정', '출결변경', '출결정정', '단순출결정정'],
+    answer: '✅ <strong>공결(출결변경) 신청 안내</strong><br><br>' +
+            '<div style="background:#fff7f0; padding:12px; border-radius:10px; border-left:4px solid var(--orange); font-size:12.5px; line-height:1.8;">' +
+            '<strong>📋 신청 구분</strong><br>' +
+            '• <strong>공결인정:</strong> 학칙 시행세칙 제30조 해당 사유 → 전자출결 앱으로 신청 + 증빙자료 첨부<br>' +
+            '• <strong>단순 출결정정:</strong> 착오·시스템 오류 등 → 담당교수에게 직접 문의 (앱 신청 시 반려)<br><br>' +
+            '<strong>📄 공결 인정 주요 사유</strong><br>' +
+            '징병검사 / 민방위훈련 / 본인 결혼 / 직계가족 사망 / 본인 입원·질병 / 본인·배우자 출산 / 취업(졸업예정자) / 총장 승인 공무 등<br><br>' +
+            '<strong>⚠️ 중요</strong><br>' +
+            '공결 포함 결석시수가 총 수업시수의 <strong>1/4 초과 시 학점 미부여 (F 또는 NP)</strong>' +
+            '</div>'
+  },
+  {
+    keywords: ['예비군', '예비군신청', '예비군훈련', '예비군출결', '동원훈련', '작계훈련', '예비군필증'],
+    answer: '🪖 <strong>예비군 수업인정 신청 안내</strong><br><br>' +
+            '<div style="background:#f8f9ff; padding:12px; border-radius:10px; border-left:4px solid var(--blue); font-size:12.5px; line-height:1.8;">' +
+            '예비군은 <strong>공결이 아닌 "출석(○) 인정"</strong>으로 처리됩니다.<br><br>' +
+            '<strong>📱 전자출결 사용 교과</strong><br>' +
+            '전자출결 앱 → 예비군 인정 신청 → 교육필증 첨부 → 담당교수 승인 → 출석 자동 반영<br><br>' +
+            '<strong>📄 전자출결 미사용 교과</strong><br>' +
+            '집중이수·캡스톤디자인 등은 담당교수에게 <strong>교육훈련 필증 직접 제출</strong> 후 정정<br><br>' +
+            '<strong>훈련 종류:</strong> 동원훈련(2박3일), 동미참훈련(32시간), 기본훈련(8시간), 작계훈련(12시간)<br><br>' +
+            '⚠️ 예비군 신청 메뉴가 안 보이면 <strong>앱 업데이트</strong> 확인 필수' +
+            '</div>'
   },
   {
     keywords: ['동아리', '동방', '써클', '학생회', '자치위원회', '대의원'],
@@ -3320,7 +3875,9 @@ function findEnhancedAnswer(userInput) {
         else if (info.aliases) {
             for (const alias of info.aliases) {
                 const ac = alias.replace(/\s/g,'').toLowerCase();
-                if (ac.length >= 2 && (text === ac || text.includes(ac) || ac.includes(text))) {
+                // ac.includes(text) 제거: "전자"alias가 "전자출결" 입력을 잘못 매칭하는 문제 방지
+                // text가 alias를 포함(text.includes(ac))하거나 완전일치(text===ac)만 허용
+                if (ac.length >= 3 && (text === ac || text.includes(ac))) {
                     const s = ac.length * 3;
                     if (s > dScore) dScore = s;
                 }
@@ -3508,6 +4065,34 @@ async function cbSend() {
                 🏋️ <strong>웰니스스테이션 실시간 현황</strong><br><br>
                 ${cbGetWellness()}
             </div>`;
+       } // ---------------------------------------------------------
+        // 💡 2. 학과별 등록금 인식 특수 로직 (줄임말 완벽 지원!)
+        // ---------------------------------------------------------
+        else if (q.includes("등록금") || q.includes("얼마")) {
+            // 자연과학B 계열 (스재, 호조, 생바 등 추가)
+           if (["호텔조리", "호조", "외식조리", "카페", "베이커리", "생명바이오", "생바", "바이오제약", "생명화공", "반려동물", "스포츠재활", "스재", "치위생", "취위생"].some(k => q.includes(k))) {
+                finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,864,000원</b><br><b>• 2,3학년: 3,538,000원</b> 입니다. (자연과학B 계열)";
+            } 
+            // 자연과학A 계열 (식영, 의뷰, 작치, 응구 등 추가)
+            else if (["식품영양", "식영", "의료뷰티", "의뷰", "피부메이크업", "뷰티화장품", "작업치료", "작치", "응급구조", "응구"].some(k => q.includes(k))) {
+                finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,758,000원</b><br><b>• 2,3학년: 3,434,000원</b> 입니다. (자연과학A 계열)";
+            } 
+            // 인문사회A 계열 (보행, 호관 등 추가)
+            else if (["호텔관광", "호관", "보건의료", "보행", "항공"].some(k => q.includes(k))) {
+                finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,412,000원</b><br><b>• 2,3학년: 3,097,000원</b> 입니다. (인문사회A 계열)";
+            } 
+            // 인문사회B 계열 (사복 등 추가)
+            else if (["일본", "경영", "세무", "회계", "사회복지", "사복"].some(k => q.includes(k))) {
+                finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,319,000원</b><br><b>• 2,3학년: 3,006,000원</b> 입니다. (인문사회B 계열)";
+            } 
+            // 공학/예능 계열 (아보, 산안, 자전 등 추가)
+            else if (["공학", "기계", "소방", "전기", "전자", "컴퓨터", "IT", "아동보육", "아보", "산업안전", "산안", "디자인", "건축", "패션", "애니메이션", "애니", "방송", "광고", "소프트웨어", "게임", "자유전공", "자전"].some(k => q.includes(k))) {
+                finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,666,000원</b><br><b>• 2,3학년: 3,345,000원</b> 입니다. (공학/예능 계열)";
+            } 
+            // 학과명을 안 치고 그냥 "등록금" 이라고만 쳤을 때
+            else {
+                finalAnswer = findEnhancedAnswer(q); 
+            }
         } else {
             finalAnswer = findEnhancedAnswer(q); 
         }
@@ -3560,18 +4145,31 @@ const iosGuide=document.getElementById('ios-guide');
 const iosClose=document.getElementById('ios-close');
 if(isIOS&&!isStandalone&&iosGuide) setTimeout(()=>{iosGuide.style.display='block';},2000);
 if(iosClose) iosClose.addEventListener('click',()=>{iosGuide.style.display='none';});
-// [모바일 키보드 가림 방지] 입력창 터치 시 화면을 맨 아래로 끌어올림
-document.addEventListener("DOMContentLoaded", () => {
-    const chatInputBox = document.getElementById('cbTxt');
-    if(chatInputBox) {
-        chatInputBox.addEventListener('focus', () => {
-            setTimeout(() => {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                const area = document.getElementById('cbArea');
-                if(area) area.scrollTop = area.scrollHeight;
-            }, 300);
-        });
-    }
+// 🚀 [완벽 해결] 모바일 키보드 가림 방지 (VisualViewport API)
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        const chatbotSection = document.getElementById('chatbot');
+        // 챗봇 화면이 열려있을 때만 작동
+        if (chatbotSection && chatbotSection.classList.contains('active')) {
+            // 키보드가 올라온 만큼 챗봇 전체 컨테이너를 위로 밀어 올림
+            const offset = window.innerHeight - window.visualViewport.height;
+            chatbotSection.style.bottom = offset > 0 ? (offset + 'px') : '0px';
+
+            // 입력창이 올라올 때 스크롤도 맨 아래로 자연스럽게 이동
+            const area = document.getElementById('cbArea');
+            if (area) {
+                setTimeout(() => { area.scrollTop = area.scrollHeight; }, 10);
+            }
+        }
+    });
+}
+
+// 혹시 모를 구형 브라우저를 위한 보조 포커스 이벤트
+document.getElementById('cbTxt')?.addEventListener('focus', () => {
+    setTimeout(() => {
+        const area = document.getElementById('cbArea');
+        if (area) area.scrollTop = area.scrollHeight;
+    }, 300);
 });
 </script>
 
