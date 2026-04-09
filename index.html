@@ -1740,11 +1740,18 @@
     </div>
   </div>
 
-  <div class="card">
+ <div class="card">
     <div class="section-title"><span class="icon" style="background:#e0f7f6">🏛️</span>8. 윌로우하우스 (유일한 기념홀)</div>
     <div class="info-row"><span class="info-label">장소</span><span>7호관 1층</span></div>
     <p>대학 설립자인 유일한 박사님의 발자취를 느껴보는 전시관</p>
     <div class="info-row"><span class="info-label">문의</span><span>대외협력팀 02-2610-0414</span></div>
+    
+    <div style="margin-top:16px;">
+      <a href="https://newih.yuhan.ac.kr/ibuilder.do?menu_idx=8340" target="_blank" 
+         style="display:flex; justify-content:center; align-items:center; gap:6px; background:#fff; color:#333; border:1px solid #d1d5db; padding:10px; border-radius:12px; font-size:13px; font-weight:700; text-decoration:none; box-shadow:0 2px 4px rgba(0,0,0,0.05);">
+        🏠 윌로우하우스 홈페이지 바로가기
+      </a>
+    </div>
   </div>
 
   <div class="card">
@@ -1968,8 +1975,10 @@
     <div style="font-size:40px; margin-bottom:10px;">💡</div>
     <div class="quiz-title">유일한 박사님 덕력 고사 (총 20문제)</div>
     <div class="quiz-desc">유일한 박사님의 숭고한 삶과 애국 정신,<br>얼마나 잘 알고 계신가요? 지금 바로 도전해보세요!</div>
-    <button class="quiz-btn" onclick="startFounderQuiz()">퀴즈 시작하기 🚀</button>
-  </div>
+    <button class="quiz-btn" onclick="startFounderQuiz()">
+      퀴즈 시작하기 <span style="background:#ef4444; color:#fff; font-size:11px; font-weight:800; padding:2px 6px; border-radius:10px; margin-left:4px; vertical-align:middle;">NEW</span>
+    </button>
+  </div>
 </div>
 <div id="smoke" class="section">
 
@@ -1985,7 +1994,7 @@
     <div class="smoke-zone-item">🅑 2호관 옥상 (1호관 쪽)</div>
     <div class="smoke-zone-item">🅒 5호관 옥상 (4호관 쪽)</div>
     <div class="smoke-zone-item">🅓 7호관 옥상</div>
-    <div class="smoke-zone-item">🅔 1호관 1층 EV 앞 흡연부스</div>
+    <div class="smoke-zone-item">🅔 1호관 1층 EV 앞 흡연부스[폐쇄 예정]</div>
     <div class="smoke-zone-item">🅕 8호관 옥상</div>
   </div>
 
@@ -2449,16 +2458,18 @@
     <div class="cb-chips">
       <div class="cb-chips-inner">
         <button class="cb-chip" onclick="cbAsk('수강신청 방법이 궁금해요')">📚 수강신청</button>
-        <button class="cb-chip" onclick="cbAsk('장학금 종류가 궁금해요')">💰 장학금</button>
-        <button class="cb-chip" onclick="cbAsk('휴학 신청 방법을 알려주세요')">🏠 휴학</button>
-        <button class="cb-chip" onclick="cbAsk('졸업 요건이 어떻게 되나요?')">🎓 졸업</button>
-        <button class="cb-chip" onclick="cbAsk('등록금 납부 방법을 알려주세요')">💰 등록금</button>
-        <button class="cb-chip" onclick="cbAsk('도서관 이용시간이 어떻게 되나요?')">📖 도서관</button>
-        <button class="cb-chip" onclick="cbAsk('웰니스스테이션 현재 이용현황 알려줘'); initWellness();">🏋️ 웰니스현황</button>
-        <button class="cb-chip" onclick="cbAsk('보건실 위치와 이용방법이 궁금해요')">🏥 보건실</button>
-        <button class="cb-chip" onclick="cbAsk('흡연구역이 어디인가요?')">🚬 흡연구역</button>
         <button class="cb-chip" onclick="cbAsk('전자출결 출석 기준이 어떻게 되나요?')">📱 전자출결</button>
         <button class="cb-chip" onclick="cbAsk('공결 신청 방법을 알려주세요')">✅ 공결신청</button>
+        <button class="cb-chip" onclick="cbAsk('휴학 신청 방법을 알려주세요')">🏠 휴학</button>
+        <button class="cb-chip" onclick="cbAsk('졸업 요건이 어떻게 되나요?')">🎓 졸업</button>
+        <button class="cb-chip" onclick="cbAsk('장학금 종류가 궁금해요')">💰 장학금</button>
+        <button class="cb-chip" onclick="cbAsk('등록금 납부 방법을 알려주세요')">💰 등록금</button>
+        <button class="cb-chip" onclick="cbAsk('도서관 이용시간이 어떻게 되나요?')">📖 도서관</button>
+        <button class="cb-chip" onclick="cbAsk('보건실 위치와 이용방법이 궁금해요')">🏥 보건실</button>
+        <button class="cb-chip" onclick="cbAsk('흡연구역이 어디인가요?')">🚬 흡연구역</button>
+        <button class="cb-chip" onclick="cbAsk('학식 메뉴 알려주세요')">🍽️ 학식</button>
+        <button class="cb-chip" onclick="cbAsk('천원의 아침밥')">🍙 천원의 아침밥</button>
+        <button class="cb-chip" onclick="cbAsk('웰니스스테이션 현재 이용현황 알려줘'); initWellness();">🏋️ 웰니스현황</button>
         <button class="cb-chip" onclick="cbAsk('교내 주요 전화번호를 알려주세요')">📞 전화번호</button>
       </div>
     </div>
@@ -3110,6 +3121,10 @@ const localKB = [
             '🏪 <strong>편의점:</strong> 5호관 1층 <br><span style="color:#666; font-size:11.5px;">▶ 학기중 08:30 ~ 18:00 (방학중 15시까지)</span>' +
             '</div>'
   },
+{
+    keywords: ['천원의아침밥', '천원의 아침밥', '천원', '아침밥', '조식'],
+    answer: '🍙 <b>천원의 아침밥 안내</b><br><br>단돈 1,000원으로 든든하고 따뜻한 아침을 챙겨드세요! 💛<br>오늘의 메뉴와 운영 시간 등 자세한 안내는 아래 전용 페이지에서 확인하실 수 있습니다.<br><br><a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 12px; background:#1a3fa8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold; box-shadow:0 2px 4px rgba(0,0,0,0.1);">👉 천원의 아침밥 확인하기</a>'
+  },
 // 💖 MZ 감성 공감 및 위로 멘트
   {
     keywords: ['힘들어', '힘드네', '우울해', '짜증나', '소리지르고', '스트레스', '피곤해', '지쳐', '포기하고', '외로워', '눈물나', '죽겠어', '속상해', '답답해', '화나'],
@@ -3513,7 +3528,7 @@ const localKB = [
             '• 2호관 옥상 (1호관 쪽)<br>' +
             '• 5호관 옥상 (4호관 쪽)<br>' +
             '• 7호관 옥상<br>' +
-            '• 1호관 1층 EV 앞 흡연부스<br>' +
+            '• 1호관 1층 EV 앞 흡연부스(폐쇄예정)<br>' +
             '• 8호관 옥상' +
             '</div>' +
 
@@ -4051,7 +4066,7 @@ async function cbSend() {
     try {
         await new Promise(r => setTimeout(r, 600));
 
-        // 🔥 '자리', '현황' 등의 일반 단어가 웰니스를 오작동시키지 않도록 조건 완벽 강화
+        // ── 1. 웰니스 현황 ──
         const isWellnessKeyword = /웰니스|헬스장|탁구|노래방|인생네컷|코노/.test(q);
         const isStatusKeyword = /이용|현황|자리|몇명|몇 명|사람|비어|사용/.test(q);
         const isW = (isWellnessKeyword && isStatusKeyword) || q.includes('웰니스 실시간 현황') || q.includes('웰니스스테이션 현재 이용현황');
@@ -4059,44 +4074,68 @@ async function cbSend() {
         if(isW && !wInited) { initWellness(); await new Promise(r => setTimeout(r, 1000)); }
 
         let finalAnswer = '';
+
         if(isW) {
             finalAnswer = `
             <div style="background:#f0fdf4; padding:14px; border-radius:12px; border-left:4px solid #22c55e;">
                 🏋️ <strong>웰니스스테이션 실시간 현황</strong><br><br>
                 ${cbGetWellness()}
             </div>`;
-       } // ---------------------------------------------------------
-        // 💡 2. 학과별 등록금 인식 특수 로직 (줄임말 완벽 지원!)
-        // ---------------------------------------------------------
-        else if (q.includes("등록금") || q.includes("얼마")) {
-            // 자연과학B 계열 (스재, 호조, 생바 등 추가)
-           if (["호텔조리", "호조", "외식조리", "카페", "베이커리", "생명바이오", "생바", "바이오제약", "생명화공", "반려동물", "스포츠재활", "스재", "치위생", "취위생"].some(k => q.includes(k))) {
+
+        // ── 2. 등록금 계열별 안내 ──
+        } else if (q.includes("등록금") || q.includes("얼마")) {
+            if (["호텔조리", "호조", "외식조리", "카페", "베이커리", "생명바이오", "생바", "바이오제약", "생명화공", "반려동물", "스포츠재활", "스재", "치위생", "취위생"].some(k => q.includes(k))) {
                 finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,864,000원</b><br><b>• 2,3학년: 3,538,000원</b> 입니다. (자연과학B 계열)";
-            } 
-            // 자연과학A 계열 (식영, 의뷰, 작치, 응구 등 추가)
-            else if (["식품영양", "식영", "의료뷰티", "의뷰", "피부메이크업", "뷰티화장품", "작업치료", "작치", "응급구조", "응구"].some(k => q.includes(k))) {
+            } else if (["식품영양", "식영", "의료뷰티", "의뷰", "피부메이크업", "뷰티화장품", "작업치료", "작치", "응급구조", "응구"].some(k => q.includes(k))) {
                 finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,758,000원</b><br><b>• 2,3학년: 3,434,000원</b> 입니다. (자연과학A 계열)";
-            } 
-            // 인문사회A 계열 (보행, 호관 등 추가)
-            else if (["호텔관광", "호관", "보건의료", "보행", "항공"].some(k => q.includes(k))) {
+            } else if (["호텔관광", "호관", "보건의료", "보행", "항공"].some(k => q.includes(k))) {
                 finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,412,000원</b><br><b>• 2,3학년: 3,097,000원</b> 입니다. (인문사회A 계열)";
-            } 
-            // 인문사회B 계열 (사복 등 추가)
-            else if (["일본", "경영", "세무", "회계", "사회복지", "사복"].some(k => q.includes(k))) {
+            } else if (["일본", "경영", "세무", "회계", "사회복지", "사복"].some(k => q.includes(k))) {
                 finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,319,000원</b><br><b>• 2,3학년: 3,006,000원</b> 입니다. (인문사회B 계열)";
-            } 
-            // 공학/예능 계열 (아보, 산안, 자전 등 추가)
-            else if (["공학", "기계", "소방", "전기", "전자", "컴퓨터", "IT", "아동보육", "아보", "산업안전", "산안", "디자인", "건축", "패션", "애니메이션", "애니", "방송", "광고", "소프트웨어", "게임", "자유전공", "자전"].some(k => q.includes(k))) {
+            } else if (["공학", "기계", "소방", "전기", "전자", "컴퓨터", "IT", "아동보육", "아보", "산업안전", "산안", "디자인", "건축", "패션", "애니메이션", "애니", "방송", "광고", "소프트웨어", "게임", "자유전공", "자전"].some(k => q.includes(k))) {
                 finalAnswer = "💰 문의하신 학과의 2026-1학기 등록금(납입총액)은<br><b>• 1학년: 3,666,000원</b><br><b>• 2,3학년: 3,345,000원</b> 입니다. (공학/예능 계열)";
-            } 
-            // 학과명을 안 치고 그냥 "등록금" 이라고만 쳤을 때
-            else {
-                finalAnswer = findEnhancedAnswer(q); 
+            } else {
+                finalAnswer = findEnhancedAnswer(q);
             }
+
+        // ── 3. 천원의 아침밥 실시간 연동 ──
+        } else if (q.includes("천원") || q.includes("아침밥") || q.includes("조식")) {
+            // 로딩 메시지 표시
+            cbTypingOff();
+            cbAdd('ai', '<div style="padding:10px; color:#666;">🍙 데이터를 불러오는 중입니다... ⏳</div>');
+            cbTypingOn();
+
+            try {
+                const bfData = await fetchBreakfastLive();
+                if (bfData && bfData.status === 'ok') {
+                    const remainColor = bfData.remain <= 20 ? '#ef4444' : '#22c55e';
+                    finalAnswer = `
+                    <div style="background:#fff7ed; padding:14px; border-radius:12px; border-left:4px solid #f97316; margin-bottom:8px;">
+                        🍙 <strong>오늘의 천원의 아침밥 실시간 현황</strong><br><br>
+                        • <strong>준비 수량:</strong> ${bfData.total}개<br>
+                        • <strong>판매 완료:</strong> <span style="color:#f97316; font-weight:800;">${bfData.sold}개</span><br>
+                        • <strong>잔여 수량:</strong> <span style="color:${remainColor}; font-weight:800;">${bfData.remain}개</span><br><br>
+                        ${bfData.remain <= 0 ?
+                          '<span style="color:#ef4444; font-weight:bold;">🚨 오늘의 아침밥이 모두 품절되었습니다.</span>' :
+                          '<a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; padding:8px 12px; background:#1d4ed8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 지금 바로 신청하기</a>'}
+                    </div>`;
+                } else {
+                    finalAnswer = `🍙 <b>천원의 아침밥 안내</b><br><br>단돈 1,000원으로 든든하고 따뜻한 아침을 챙겨드세요! 💛<br>오늘의 메뉴와 운영 시간 등 자세한 안내는 아래 전용 페이지에서 확인하실 수 있습니다.<br><br><a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 12px; background:#1a3fa8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 천원의 아침밥 확인하기</a>`;
+                }
+            } catch (err) {
+                finalAnswer = `🍙 <b>천원의 아침밥 안내</b><br><br>실시간 데이터를 불러오지 못했습니다. 아래 페이지에서 확인해 주세요.<br><br><a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 12px; background:#1a3fa8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 천원의 아침밥 확인하기</a>`;
+            }
+
+        // ── 4. 일반 KB 검색 ──
         } else {
-            finalAnswer = findEnhancedAnswer(q); 
+            finalAnswer = findEnhancedAnswer(q);
         }
+
+        // ── 최종 출력 (모든 분기 공통) ──
         cbAdd('ai', finalAnswer);
+
+        // ── 구글 시트 질문 로그 전송 ──
+        cbLogToSheet(q, finalAnswer);
 
     } catch(err) {
         cbAdd('ai', '<div class="cb-warn">⚠️ 오류가 발생했습니다. 다시 시도해 주세요.</div>');
@@ -4171,6 +4210,55 @@ document.getElementById('cbTxt')?.addEventListener('focus', () => {
         if (area) area.scrollTop = area.scrollHeight;
     }, 300);
 });
+// ═══════════════════════════════════════════════
+// 🍙 천원의 아침밥 실시간 데이터 호출 함수
+// ═══════════════════════════════════════════════
+function fetchBreakfastLive() {
+  return new Promise((resolve) => {
+    const today = new Date();
+    const dateStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+    
+    const cbName = 'cb_bf_' + Date.now();
+    const script = document.createElement('script');
+    
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      if(document.body.contains(script)) document.body.removeChild(script);
+      resolve(null);
+    }, 5000);
+
+    window[cbName] = function(data) {
+      clearTimeout(timeout);
+      delete window[cbName];
+      if(document.body.contains(script)) document.body.removeChild(script);
+      resolve(data);
+    };
+    
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbxNTGgNwgfpbS5NhCOCqrJ_-lFF7EaWm0iJLVcuXlnD4p2CNmf7ULD2mCdBn8-Pzfw2/exec';
+    script.src = `${GAS_URL}?action=getStats&date=${dateStr}&callback=${cbName}`;
+    document.body.appendChild(script);
+  });
+}
+
+// ── 📊 구글 시트 질문 로그 전송 함수 ──
+// ✅ 아래 GAS_LOG_URL에 챗봇 로그용 Apps Script 배포 URL을 입력하세요
+const GAS_LOG_URL = 'https://script.google.com/macros/s/여기에_챗봇로그_배포URL을_붙여넣으세요/exec';
+
+function cbLogToSheet(question, answerHtml) {
+    if (GAS_LOG_URL.includes('여기에_')) return; // 미설정 시 전송 안 함
+    const plainAnswer = answerHtml.replace(/<[^>]+>/g, '').trim();
+    let answerType = '일반답변';
+    if (plainAnswer.includes('정확히 찾지 못했어요')) answerType = '답변실패';
+    else if (plainAnswer.includes('웰니스스테이션')) answerType = '웰니스현황';
+    else if (plainAnswer.includes('사무실 안내')) answerType = '학과안내';
+    else if (plainAnswer.includes('아침밥')) answerType = '천원의아침밥';
+    fetch(GAS_LOG_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: question, answerType: answerType })
+    }).catch(() => {});
+}
 </script>
 
 <div class="footer">
