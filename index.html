@@ -729,6 +729,15 @@
   }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YGF2CVE694"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YGF2CVE694'); // 꼭 본인 ID로 변경하세요!
+</script>
 </head>
 <body>
 
@@ -4033,6 +4042,14 @@ async function cbSend() {
     const inp = document.getElementById('cbTxt');
     let q = inp.value.trim();
     if(!q) return;
+
+// 👇 [여기에 GA4 추적 코드를 추가!] 👇
+    if (typeof gtag === 'function') {
+        gtag('event', 'search', {
+            'search_term': q, // 학생이 입력한 질문 내용
+            'content_type': 'chatbot_query'
+        });
+    }
 
     // IME 버그 완벽 방어를 위한 입력창 강제 초기화 및 포커스 리셋
     inp.blur();
