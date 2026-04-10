@@ -4261,22 +4261,61 @@ function fetchBreakfastLive() {
 // ✅ 아래 GAS_LOG_URL에 챗봇 로그용 Apps Script 배포 URL을 입력하세요
 const GAS_LOG_URL = 'https://script.google.com/macros/s/AKfycbx6Rsg2AHCNpOCdDmVieEEJNB06Uh9nYCurOclp8Y8sk7zPebr-ekrszfse8fYM0ru-6A/exec';
 
+// 변경 후 (16개 분류)
 function cbLogToSheet(question, answerHtml) {
-    if (GAS_LOG_URL.includes('여기에_')) return; // 미설정 시 전송 안 함
-    const plainAnswer = answerHtml.replace(/<[^>]+>/g, '').trim();
-    let answerType = '일반답변';
-    if (plainAnswer.includes('정확히 찾지 못했어요')) answerType = '답변실패';
-    else if (plainAnswer.includes('웰니스스테이션')) answerType = '웰니스현황';
-    else if (plainAnswer.includes('사무실 안내')) answerType = '학과안내';
-    else if (plainAnswer.includes('아침밥')) answerType = '천원의아침밥';
+    if (GAS_LOG_URL.includes('여기에_')) return;
+
+    const q   = question.replace(/\s/g, '').toLowerCase();
+    const ans = answerHtml.replace(/<[^>]+>/g, '').trim();
+
+    let answerType = '기타';
+
+    // 1순위: 답변 내용으로 판별
+    if (ans.includes('정확히 찾지 못했어요') || ans.includes('다시 시도')) {
+        answerType = '답변실패';
+    } else if (ans.includes('사무실 안내') || ans.includes('전화번호') && ans.includes('위치')) {
+        answerType = '학과안내';
+    } else if (ans.includes('웰니스스테이션 실시간 현황')) {
+        answerType = '웰니스현황';
+    } else if (ans.includes('아침밥') || ans.includes('잔여 수량') || ans.includes('준비 수량')) {
+        answerType = '천원의아침밥';
+
+    // 2순위: 질문 키워드로 탭 분류
+    } else if (['수강신청','성적','졸업','휴학','복학','재수강','전과','재입학','자퇴','제적','학사일정','개강','종강','증명서','학점','출석','출결','전자출결','공결','예비군'].some(k => q.includes(k))) {
+        answerType = '학사안내';
+    } else if (['장학금','장학','국가장학','한국장학재단','장학금신청','저소득','등록금','납부','가상계좌','학자금','대출'].some(k => q.includes(k))) {
+        answerType = '장학·학자금';
+    } else if (['도서관','열람실','취업','창업','일자리','잡카페','모바일대출증','와이파이','wifi','인터넷','오피스','gsuite','증명서','발급'].some(k => q.includes(k))) {
+        answerType = '학생서비스';
+    } else if (['보건실','식당','학식','구내식당','카페','편의점','헬스장','탁구','노래방','코인노래방','인생네컷','웰니스','윌로우하우스','휴게공간'].some(k => q.includes(k))) {
+        answerType = '편의시설';
+    } else if (['동아리','학생회','자치위원회','대의원','상담','힐링카페','심리','모바일학생증','학생증','전화번호','연락처'].some(k => q.includes(k))) {
+        answerType = '기타안내';
+    } else if (['흡연','담배','금연','흡연구역'].some(k => q.includes(k))) {
+        answerType = '흡연구역';
+    } else if (['캠퍼스','건물','호관','길찾기','주차','지도'].some(k => q.includes(k))) {
+        answerType = '캠퍼스안내';
+    } else if (['유일한','설립자','창업자','유한양행','유일한박사'].some(k => q.includes(k))) {
+        answerType = '설립자유일한';
+    } else if (['mbti','테스트','성향','유형'].some(k => q.includes(k))) {
+        answerType = '캠퍼스MBTI';
+    } else if (['전자출결','출결앱','출석체크','출결기준'].some(k => q.includes(k))) {
+        answerType = '전자출결';
+    } else if (['공결','공결인정','예비군','민방위'].some(k => q.includes(k))) {
+        answerType = '공결안내';
+    } else if (['배고파','뭐먹지','식당','밥','점심','저녁','간식','메뉴','천원','아침밥'].some(k => q.includes(k))) {
+        answerType = '편의시설';
+    } else if (['힘들어','스트레스','우울','외로워','죽겠어','포기'].some(k => q.includes(k))) {
+        answerType = '기타안내';
+    }
+
     fetch(GAS_LOG_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question, answerType: answerType })
     }).catch(() => {});
-}
-</script>
+}</script>
 
 <div class="footer">
   <div class="footer-links">
