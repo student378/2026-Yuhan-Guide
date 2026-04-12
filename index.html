@@ -753,6 +753,56 @@
   </div>
 </div>
 
+<!-- 천원의 아침밥 운영시간 외 안내 모달 -->
+<div id="breakfast-closed-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.55); align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:20px; padding:28px 24px; max-width:320px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.22); animation:fadeIn .25s ease;">
+    <div style="font-size:44px; margin-bottom:10px;">🍙</div>
+    <div style="font-size:17px; font-weight:800; color:#1a3fa8; margin-bottom:8px;">운영시간이 아닙니다</div>
+    <div style="font-size:13px; color:#555; line-height:1.7; margin-bottom:18px;">
+      천원의 아침밥 운영 가능 시간은<br>
+      <strong style="color:#f26522;">화·수·목 08:30 ~ 10:30</strong> 입니다.<br>
+      <span style="font-size:11.5px; color:#999;">(월·금·토·일·법정공휴일 휴무)</span>
+    </div>
+    <button onclick="document.getElementById('breakfast-closed-modal').style.display='none';"
+      style="background:linear-gradient(135deg,#f97316,#ea580c); color:#fff; border:none; border-radius:12px; padding:10px 32px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif;">
+      확인
+    </button>
+  </div>
+</div>
+
+<!-- 천원의 아침밥 마감 안내 모달 -->
+<div id="breakfast-soldout-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.55); align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:20px; padding:28px 24px; max-width:320px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.22); animation:fadeIn .25s ease;">
+    <div style="font-size:44px; margin-bottom:10px;">🍙</div>
+    <div style="font-size:17px; font-weight:800; color:#ef4444; margin-bottom:8px;">금일 마감되었습니다</div>
+    <div style="font-size:13px; color:#555; line-height:1.7; margin-bottom:18px;">
+      금일 천원의 아침밥은 마감되었습니다.<br>
+      <strong style="color:#f26522;">감사합니다 😊</strong>
+    </div>
+    <button onclick="document.getElementById('breakfast-soldout-modal').style.display='none';"
+      style="background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; border:none; border-radius:12px; padding:10px 32px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif;">
+      확인
+    </button>
+  </div>
+</div>
+
+<!-- 웰니스스테이션 운영시간 외 안내 모달 -->
+<div id="wellness-closed-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.55); align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:20px; padding:28px 24px; max-width:320px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.22); animation:fadeIn .25s ease;">
+    <div style="font-size:44px; margin-bottom:10px;">🏋️</div>
+    <div style="font-size:17px; font-weight:800; color:#1a3fa8; margin-bottom:8px;">운영시간이 아닙니다</div>
+    <div style="font-size:13px; color:#555; line-height:1.7; margin-bottom:18px;">
+      웰니스스테이션 이용 가능 시간은<br>
+      <strong style="color:#f26522;">평일 09:00 ~ 18:00</strong> 입니다.<br>
+      <span style="font-size:11.5px; color:#999;">(토·일·법정공휴일 휴무)</span>
+    </div>
+    <button onclick="document.getElementById('wellness-closed-modal').style.display='none';"
+      style="background:linear-gradient(135deg,#1a3fa8,#2a56c6); color:#fff; border:none; border-radius:12px; padding:10px 32px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif;">
+      확인
+    </button>
+  </div>
+</div>
+
 <div class="ios-guide" id="ios-guide">
   <button class="ios-close" id="ios-close">✕</button>
   <strong>📱 아이폰에서 앱으로 설치하는 방법</strong>
@@ -775,19 +825,19 @@
 
   <div class="tabs-wrap">
     <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('haksa', this)">🎓 학사안내</button>
-      <button class="tab-btn" onclick="showTab('jangha', this)">💰 장학·학자금</button>
-      <button class="tab-btn" onclick="showTab('service', this)">🛎 학생서비스</button>
-      <button class="tab-btn" onclick="showTab('facility', this)">🏢 편의시설</button>
-      <button class="tab-btn" onclick="showTab('etc', this)">📋 기타안내</button>
-      <button class="tab-btn" onclick="showTab('smoke', this)">🚬 흡연구역</button>
-      <button class="tab-btn" onclick="showTab('campus', this)">🗺️ 캠퍼스안내</button>
-      <button class="tab-btn" onclick="showTab('founder', this)">👨‍💼 설립자 유일한</button>
-      <button class="tab-btn" onclick="showTab('wellness', this); initWellness();">🏋️ 웰니스현황</button>
-      <button class="tab-btn" onclick="showTab('mbti', this)">🧠 캠퍼스 MBTI</button>
-      <button class="tab-btn" onclick="showTab('ejchul', this)">📱 전자출결</button>
-      <button class="tab-btn" onclick="showTab('gongjul', this)">✅ 공결안내</button>
-      <button class="tab-btn" onclick="showTab('chatbot', this)">🤖 AI챗봇</button>
+      <button class="tab-btn active" onclick="showTab('haksa', this); gtag('event', 'tab_click', {'menu_name': '학사안내'}); tabLogToSheet('학사안내');">🎓 학사안내</button>
+      <button class="tab-btn" onclick="showTab('jangha', this); gtag('event', 'tab_click', {'menu_name': '장학_학자금'}); tabLogToSheet('장학_학자금');">💰 장학·학자금</button>
+      <button class="tab-btn" onclick="showTab('service', this); gtag('event', 'tab_click', {'menu_name': '학생서비스'}); tabLogToSheet('학생서비스');">🛎 학생서비스</button>
+      <button class="tab-btn" onclick="showTab('facility', this); gtag('event', 'tab_click', {'menu_name': '편의시설'}); tabLogToSheet('편의시설');">🏢 편의시설</button>
+      <button class="tab-btn" onclick="showTab('etc', this); gtag('event', 'tab_click', {'menu_name': '기타안내'}); tabLogToSheet('기타안내');">📋 기타안내</button>
+      <button class="tab-btn" onclick="showTab('smoke', this); gtag('event', 'tab_click', {'menu_name': '흡연구역'}); tabLogToSheet('흡연구역');">🚬 흡연구역</button>
+      <button class="tab-btn" onclick="showTab('campus', this); gtag('event', 'tab_click', {'menu_name': '캠퍼스안내'}); tabLogToSheet('캠퍼스안내');">🗺️ 캠퍼스안내</button>
+      <button class="tab-btn" onclick="showTab('founder', this); gtag('event', 'tab_click', {'menu_name': '설립자유일한'}); tabLogToSheet('설립자유일한');">👨‍💼 설립자 유일한</button>
+      <button class="tab-btn" onclick="showTab('wellness', this); initWellness(); gtag('event', 'tab_click', {'menu_name': '웰니스현황'}); tabLogToSheet('웰니스현황');">🏋️ 웰니스현황</button>
+      <button class="tab-btn" onclick="showTab('mbti', this); gtag('event', 'tab_click', {'menu_name': '캠퍼스MBTI'}); tabLogToSheet('캠퍼스MBTI');">🧠 캠퍼스 MBTI</button>
+      <button class="tab-btn" onclick="showTab('ejchul', this); gtag('event', 'tab_click', {'menu_name': '전자출결'}); tabLogToSheet('전자출결');">📱 전자출결</button>
+      <button class="tab-btn" onclick="showTab('gongjul', this); gtag('event', 'tab_click', {'menu_name': '공결안내'}); tabLogToSheet('공결안내');">✅ 공결안내</button>
+      <button class="tab-btn" onclick="showTab('chatbot', this); gtag('event', 'tab_click', {'menu_name': 'AI챗봇'}); tabLogToSheet('AI챗봇');">🤖 AI챗봇</button>
     </div>
   </div>
 
@@ -2373,20 +2423,80 @@
   <div class="card">
     <div class="section-title"><span class="icon" style="background:#fde8ef">📄</span>공결인정 사유 및 증빙서류 (학칙 시행세칙 제30조)</div>
     <div class="table-wrap">
-      <table>
-        <tr><th>호</th><th>결석사유</th><th>증빙서류</th></tr>
-        <tr><td>1</td><td>징병검사</td><td>관련 공문서</td></tr>
-        <tr><td>2</td><td>민방위 훈련</td><td>관련 공문서</td></tr>
-        <tr><td>3</td><td>총장이 승인한 학교 공무기간</td><td>관련 공문서</td></tr>
-        <tr><td>4</td><td>본인의 결혼</td><td>청첩장</td></tr>
-        <tr><td>5</td><td>배우자 사망 / 본인(배우자) 부모 사망 / 자녀·형제자매 사망</td><td>사망진단서 및 가족관계 확인서류</td></tr>
-        <tr><td>6</td><td>본인(배우자)의 (증)(외)조부모 사망</td><td>사망진단서 및 가족관계 확인서류</td></tr>
-        <tr><td>7</td><td>본인 질병(사고)으로 입원 또는 이에 상응하는 경우 (법정 전염병 포함)</td><td>입퇴원확인서 또는 진단서 등 의료기관 발행 확인서</td></tr>
-        <tr><td>8</td><td>본인의 출산</td><td>진단서 등 의료기관 발행 확인서</td></tr>
-        <tr><td>9</td><td>배우자의 출산</td><td>진단서 + 가족관계 확인서류</td></tr>
-        <tr><td>10</td><td>졸업예정자의 재학 중 취업</td><td>취업 증빙서류</td></tr>
-        <tr><td>11</td><td>기타 학교에서 인정한 기간</td><td>관련 공문서</td></tr>
-      </table>
+        <table>
+            <tr>
+                <th>호</th>
+                <th>결석사유</th>
+                <th>공결인정일수</th>
+                <th>증빙서류</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>징병검사</td>
+                <td>검사당일+2일이내(원거리)</td>
+                <td>관련 공문서</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>민방위 훈련</td>
+                <td>훈련기간</td>
+                <td>관련 공문서</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>총장이 승인한 학교 공무기간</td>
+                <td>해당일</td>
+                <td>관련 공문서</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>본인의 결혼</td>
+                <td>7일</td>
+                <td>청첩장</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>배우자 사망 / 본인(배우자) 부모 사망 / 자녀·형제자매 사망</td>
+                <td>5일</td>
+                <td>사망진단서 및 가족관계 확인서류</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>본인(배우자)의 (증)(외)조부모 사망</td>
+                <td>3일</td>
+                <td>사망진단서 및 가족관계 확인서류</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>본인 질병(사고)으로 입원 또는 이에 상응하는 경우 (법정 전염병 포함)</td>
+                <td>14일 이내</td>
+                <td>입퇴원확인서 또는 진단서 등 의료기관 발행 확인서</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>본인의 출산</td>
+                <td>20일</td>
+                <td>진단서 등 의료기관 발행 확인서</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>배우자의 출산</td>
+                <td>5일</td>
+                <td>진단서 + 가족관계 확인서류</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>졸업예정자의 재학 중 취업</td>
+                <td>해당일</td>
+                <td>취업 증빙서류</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>기타 학교에서 인정한 기간</td>
+                <td>해당일</td>
+                <td>관련 공문서</td>
+            </tr>
+        </table>
     </div>
     <div class="sub-title" style="margin-top:12px">질병 내원 시 인정 서류</div>
     <div class="table-wrap">
@@ -2477,7 +2587,7 @@
         <button class="cb-chip" onclick="cbAsk('보건실 위치와 이용방법이 궁금해요')">🏥 보건실</button>
         <button class="cb-chip" onclick="cbAsk('흡연구역이 어디인가요?')">🚬 흡연구역</button>
         <button class="cb-chip" onclick="cbAsk('학식 메뉴 알려주세요')">🍽️ 학식</button>
-        <button class="cb-chip" onclick="cbAsk('천원의 아침밥')">🍙 천원의 아침밥</button>
+        <button class="cb-chip" onclick="handleBreakfastClick()">🍙 천원의 아침밥</button>
         <button class="cb-chip" onclick="cbAsk('웰니스스테이션 현재 이용현황 알려줘'); initWellness();">🏋️ 웰니스현황</button>
         <button class="cb-chip" onclick="cbAsk('교내 주요 전화번호를 알려주세요')">📞 전화번호</button>
       </div>
@@ -2670,6 +2780,83 @@ function showFounderResult() {
     `;
 }
 // ═══════════════════════════════════════════════
+// 웰니스스테이션 운영시간 체크
+// ═══════════════════════════════════════════════
+// 2026년 대한민국 법정공휴일 목록
+const HOLIDAYS_2026 = new Set([
+  '2026-01-01','2026-01-28','2026-01-29','2026-01-30',
+  '2026-03-01','2026-05-05','2026-05-25',
+  '2026-06-06','2026-08-15',
+  '2026-09-24','2026-09-25','2026-09-26',
+  '2026-10-03','2026-10-09',
+  '2026-12-25'
+]);
+
+function isWellnessOpen() {
+  const now = new Date();
+  const day = now.getDay(); // 0=일, 6=토
+  const hour = now.getHours();
+  const dateStr = now.getFullYear() + '-'
+    + String(now.getMonth()+1).padStart(2,'0') + '-'
+    + String(now.getDate()).padStart(2,'0');
+
+  if (day === 0 || day === 6) return false;       // 토·일
+  if (HOLIDAYS_2026.has(dateStr)) return false;   // 법정공휴일
+  if (hour < 9 || hour >= 18) return false;       // 09:00 미만 or 18:00 이후
+  return true;
+}
+
+function showWellnessClosedModal() {
+  const m = document.getElementById('wellness-closed-modal');
+  if (m) m.style.display = 'flex';
+}
+
+// ═══════════════════════════════════════════════
+// 천원의 아침밥 운영시간 체크
+// ═══════════════════════════════════════════════
+// 특별 운영일: 월·금이지만 예외적으로 운영하는 날
+const BF_SPECIAL_OPEN = new Set(['2026-04-27','2026-06-22']);
+
+function isBreakfastOpen() {
+  const now = new Date();
+  const day = now.getDay(); // 0=일,1=월,2=화,3=수,4=목,5=금,6=토
+  const hour = now.getHours();
+  const min  = now.getMinutes();
+  const dateStr = now.getFullYear() + '-'
+    + String(now.getMonth()+1).padStart(2,'0') + '-'
+    + String(now.getDate()).padStart(2,'0');
+
+  // 특별 운영일이면 요일·공휴일 차단 건너뜀
+  if (!BF_SPECIAL_OPEN.has(dateStr)) {
+    if (day === 0 || day === 6) return false;         // 토·일
+    if (day === 1 || day === 5) return false;         // 월·금
+    if (HOLIDAYS_2026.has(dateStr)) return false;     // 법정공휴일
+  }
+
+  // 시간 체크: 08:30 ~ 10:30
+  const totalMin = hour * 60 + min;
+  if (totalMin < 8*60+30 || totalMin >= 10*60+30) return false;
+  return true;
+}
+
+// 잔여수량 0개 여부 (fetchBreakfastLive 결과 캐시)
+let _bfLastData = null;
+
+function isBreakfastSoldOut() {
+  return _bfLastData && _bfLastData.status === 'ok' && _bfLastData.remain <= 0;
+}
+
+function showBreakfastClosedModal() {
+  const m = document.getElementById('breakfast-closed-modal');
+  if (m) m.style.display = 'flex';
+}
+
+function showBreakfastSoldOutModal() {
+  const m = document.getElementById('breakfast-soldout-modal');
+  if (m) m.style.display = 'flex';
+}
+
+// ═══════════════════════════════════════════════
 // 웰니스스테이션 실시간 현황
 // ═══════════════════════════════════════════════
 const W_URL='https://script.google.com/macros/s/AKfycbwFeqEH8wLslpI-t7n6aMNMp6-dZPb_ewDCg9kKK9RwLVUrActfcluTj8x0QbyNISes/exec';
@@ -2686,6 +2873,10 @@ let wInited=false;
 const W_INTERVAL=30000;
 
 function initWellness(){
+  if(!isWellnessOpen()){
+    showWellnessClosedModal();
+    return;
+  }
   if(wInited)return;
   wInited=true;
   loadWellness();
@@ -3787,19 +3978,36 @@ const localKB = [
             '</div>' +
             '<div style="margin-top:8px; font-size:11.5px; color:var(--text-muted);">💡 앱 버전이 최신이 아닐 경우 반드시 업데이트 후 사용하세요.</div>'
   },
-  {
+ {
     keywords: ['공결', '공결인정', '공결신청', '공결방법', '결석인정', '출결변경', '출결정정', '단순출결정정'],
     answer: '✅ <strong>공결(출결변경) 신청 안내</strong><br><br>' +
-            '<div style="background:#fff7f0; padding:12px; border-radius:10px; border-left:4px solid var(--orange); font-size:12.5px; line-height:1.8;">' +
+            '<div style="background:#fff7f0; padding:12px; border-radius:10px; border-left:4px solid var(--orange); font-size:12.5px; line-height:1.8; margin-bottom:15px;">' +
             '<strong>📋 신청 구분</strong><br>' +
             '• <strong>공결인정:</strong> 학칙 시행세칙 제30조 해당 사유 → 전자출결 앱으로 신청 + 증빙자료 첨부<br>' +
             '• <strong>단순 출결정정:</strong> 착오·시스템 오류 등 → 담당교수에게 직접 문의 (앱 신청 시 반려)<br><br>' +
-            '<strong>📄 공결 인정 주요 사유</strong><br>' +
-            '징병검사 / 민방위훈련 / 본인 결혼 / 직계가족 사망 / 본인 입원·질병 / 본인·배우자 출산 / 취업(졸업예정자) / 총장 승인 공무 등<br><br>' +
             '<strong>⚠️ 중요</strong><br>' +
             '공결 포함 결석시수가 총 수업시수의 <strong>1/4 초과 시 학점 미부여 (F 또는 NP)</strong>' +
+            '</div>' +
+            '<div class="card">' +
+            '    <div class="section-title"><span class="icon" style="background:#fde8ef">📄</span>공결인정 사유 및 인정일수</div>' +
+            '    <div class="table-wrap">' +
+            '        <table>' +
+            '            <tr><th>호</th><th>결석사유</th><th>공결인정일수</th><th>증빙서류</th></tr>' +
+            '            <tr><td>1</td><td>징병검사</td><td>검사당일+2일이내(원거리)</td><td>관련 공문서</td></tr>' +
+            '            <tr><td>2</td><td>민방위 훈련</td><td>훈련기간</td><td>관련 공문서</td></tr>' +
+            '            <tr><td>3</td><td>총장이 승인한 학교 공무기간</td><td>해당일</td><td>관련 공문서</td></tr>' +
+            '            <tr><td>4</td><td>본인의 결혼</td><td>7일</td><td>청첩장</td></tr>' +
+            '            <tr><td>5</td><td>배우자 사망 / 본인(배우자) 부모 사망 / 자녀·형제자매 사망</td><td>5일</td><td>사망진단서 및 가족관계 확인서류</td></tr>' +
+            '            <tr><td>6</td><td>본인(배우자)의 (증)(외)조부모 사망</td><td>3일</td><td>사망진단서 및 가족관계 확인서류</td></tr>' +
+            '            <tr><td>7</td><td>본인 질병(사고)으로 입원 또는 이에 상응하는 경우 (법정 전염병 포함)</td><td>14일 이내</td><td>입퇴원확인서 또는 진단서 등 의료기관 발행 확인서</td></tr>' +
+            '            <tr><td>8</td><td>본인의 출산</td><td>20일</td><td>진단서 등 의료기관 발행 확인서</td></tr>' +
+            '            <tr><td>9</td><td>배우자의 출산</td><td>5일</td><td>진단서 + 가족관계 확인서류</td></tr>' +
+            '            <tr><td>10</td><td>졸업예정자의 재학 중 취업</td><td>해당일</td><td>취업 증빙서류</td></tr>' +
+            '            <tr><td>11</td><td>기타 학교에서 인정한 기간</td><td>해당일</td><td>관련 공문서</td></tr>' +
+            '        </table>' +
+            '    </div>' +
             '</div>'
-  },
+},
   {
     keywords: ['예비군', '예비군신청', '예비군훈련', '예비군출결', '동원훈련', '작계훈련', '예비군필증'],
     answer: '🪖 <strong>예비군 수업인정 신청 안내</strong><br><br>' +
@@ -3901,7 +4109,7 @@ function findEnhancedAnswer(userInput) {
                 const ac = alias.replace(/\s/g,'').toLowerCase();
                 // ac.includes(text) 제거: "전자"alias가 "전자출결" 입력을 잘못 매칭하는 문제 방지
                 // text가 alias를 포함(text.includes(ac))하거나 완전일치(text===ac)만 허용
-                if (ac.length >= 3 && (text === ac || text.includes(ac))) {
+                if (ac.length >= 2 && (text === ac || (ac.length >= 3 && text.includes(ac)))) {
                     const s = ac.length * 3;
                     if (s > dScore) dScore = s;
                 }
@@ -4026,8 +4234,8 @@ function findEnhancedAnswer(userInput) {
         : '';
 
     return `<div style="background:#fff3e8; padding:14px; border-radius:12px; border-left:4px solid var(--orange); font-size:12.5px; line-height:1.6; color:#7a2e00;">
-        🤔 <strong>앗, 정확히 찾지 못했어요!</strong><br><br>
-        아래처럼 핵심 단어로 다시 질문해 주세요 😊<br>
+        🤔 <strong>앗, 정확히 찾지 못했어요!(챗봇은 대학생활안내 범위내에서 답변을 드려서 한계가 있으니 양해해주세요~😊 </strong><br><br>
+        아래처럼 핵심 단어로 다시 질문해 주세요~다음에는 학습해서 꼭 답변드릴께요~ 😊<br>
         <span style="color:#555; font-size:11.5px;">예: <em>장학금, 수강신청, 기계공학과, 보건실, 도서관, 휴학</em> 등</span>
         ${hintStr}
     </div>`;
@@ -4088,16 +4296,29 @@ async function cbSend() {
         const isStatusKeyword = /이용|현황|자리|몇명|몇 명|사람|비어|사용/.test(q);
         const isW = (isWellnessKeyword && isStatusKeyword) || q.includes('웰니스 실시간 현황') || q.includes('웰니스스테이션 현재 이용현황');
 
-        if(isW && !wInited) { initWellness(); await new Promise(r => setTimeout(r, 1000)); }
+        if(isW && !wInited && isWellnessOpen()) { initWellness(); await new Promise(r => setTimeout(r, 1000)); }
 
         let finalAnswer = '';
 
         if(isW) {
-            finalAnswer = `
-            <div style="background:#f0fdf4; padding:14px; border-radius:12px; border-left:4px solid #22c55e;">
-                🏋️ <strong>웰니스스테이션 실시간 현황</strong><br><br>
-                ${cbGetWellness()}
-            </div>`;
+            if(!isWellnessOpen()){
+                finalAnswer = `
+                <div style="background:#fff7ed; padding:14px; border-radius:12px; border-left:4px solid #f26522; text-align:center;">
+                    <div style="font-size:36px; margin-bottom:8px;">🏋️</div>
+                    <strong style="font-size:14px; color:#1a3fa8;">운영시간이 아닙니다</strong><br><br>
+                    <span style="font-size:12.5px; color:#555; line-height:1.7;">
+                        웰니스스테이션 이용 가능 시간은<br>
+                        <strong style="color:#f26522;">평일 09:00 ~ 18:00</strong> 입니다.<br>
+                        <span style="font-size:11px; color:#999;">(토·일·법정공휴일 휴무)</span>
+                    </span>
+                </div>`;
+            } else {
+                finalAnswer = `
+                <div style="background:#f0fdf4; padding:14px; border-radius:12px; border-left:4px solid #22c55e;">
+                    🏋️ <strong>웰니스스테이션 실시간 현황</strong><br><br>
+                    ${cbGetWellness()}
+                </div>`;
+            }
 
         // ── 2. 등록금 계열별 안내 ──
         } else if (q.includes("등록금") || q.includes("얼마")) {
@@ -4117,30 +4338,57 @@ async function cbSend() {
 
         // ── 3. 천원의 아침밥 실시간 연동 ──
         } else if (q.includes("천원") || q.includes("아침밥") || q.includes("조식")) {
-            // 로딩 메시지 표시
-            cbTypingOff();
-            cbAdd('ai', '<div style="padding:10px; color:#666;">🍙 데이터를 불러오는 중입니다... ⏳</div>');
-            cbTypingOn();
 
-            try {
-                const bfData = await fetchBreakfastLive();
-                if (bfData && bfData.status === 'ok') {
-                    const remainColor = bfData.remain <= 20 ? '#ef4444' : '#22c55e';
-                    finalAnswer = `
-                    <div style="background:#fff7ed; padding:14px; border-radius:12px; border-left:4px solid #f97316; margin-bottom:8px;">
-                        🍙 <strong>오늘의 천원의 아침밥 실시간 현황</strong><br><br>
-                        • <strong>준비 수량:</strong> ${bfData.total}개<br>
-                        • <strong>판매 완료:</strong> <span style="color:#f97316; font-weight:800;">${bfData.sold}개</span><br>
-                        • <strong>잔여 수량:</strong> <span style="color:${remainColor}; font-weight:800;">${bfData.remain}개</span><br><br>
-                        ${bfData.remain <= 0 ?
-                          '<span style="color:#ef4444; font-weight:bold;">🚨 오늘의 아침밥이 모두 품절되었습니다.</span>' :
-                          '<a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; padding:8px 12px; background:#1d4ed8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 지금 바로 신청하기</a>'}
-                    </div>`;
-                } else {
-                    finalAnswer = `🍙 <b>천원의 아침밥 안내</b><br><br>단돈 1,000원으로 든든하고 따뜻한 아침을 챙겨드세요! 💛<br>오늘의 메뉴와 운영 시간 등 자세한 안내는 아래 전용 페이지에서 확인하실 수 있습니다.<br><br><a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 12px; background:#1a3fa8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 천원의 아침밥 확인하기</a>`;
+            // 운영시간 외 체크
+            if (!isBreakfastOpen()) {
+                finalAnswer = `
+                <div style="background:#fff7ed; padding:14px; border-radius:12px; border-left:4px solid #f97316; text-align:center;">
+                    <div style="font-size:36px; margin-bottom:8px;">🍙</div>
+                    <strong style="font-size:14px; color:#1a3fa8;">운영시간이 아닙니다</strong><br><br>
+                    <span style="font-size:12.5px; color:#555; line-height:1.7;">
+                        천원의 아침밥 운영 가능 시간은<br>
+                        <strong style="color:#f26522;">화·수·목 08:30 ~ 10:30</strong> 입니다.<br>
+                        <span style="font-size:11px; color:#999;">(월·금·토·일·법정공휴일 휴무)</span>
+                    </span>
+                </div>`;
+            } else {
+                // 운영시간 내: 실시간 데이터 조회
+                cbTypingOff();
+                cbAdd('ai', '<div style="padding:10px; color:#666;">🍙 데이터를 불러오는 중입니다... ⏳</div>');
+                cbTypingOn();
+
+                try {
+                    const bfData = await fetchBreakfastLive();
+                    _bfLastData = bfData;
+                    if (bfData && bfData.status === 'ok') {
+                        if (bfData.remain <= 0) {
+                            // 잔여수량 0 → 마감 안내
+                            finalAnswer = `
+                            <div style="background:#fef2f2; padding:14px; border-radius:12px; border-left:4px solid #ef4444; text-align:center;">
+                                <div style="font-size:36px; margin-bottom:8px;">🍙</div>
+                                <strong style="font-size:14px; color:#ef4444;">금일 마감되었습니다</strong><br><br>
+                                <span style="font-size:12.5px; color:#555; line-height:1.7;">
+                                    금일 천원의 아침밥은 마감되었습니다.<br>
+                                    <strong style="color:#f26522;">감사합니다 😊</strong>
+                                </span>
+                            </div>`;
+                        } else {
+                            const remainColor = bfData.remain <= 20 ? '#ef4444' : '#22c55e';
+                            finalAnswer = `
+                            <div style="background:#fff7ed; padding:14px; border-radius:12px; border-left:4px solid #f97316; margin-bottom:8px;">
+                                🍙 <strong>오늘의 천원의 아침밥 실시간 현황</strong><br><br>
+                                • <strong>준비 수량:</strong> ${bfData.total}개<br>
+                                • <strong>판매 완료:</strong> <span style="color:#f97316; font-weight:800;">${bfData.sold}개</span><br>
+                                • <strong>잔여 수량:</strong> <span style="color:${remainColor}; font-weight:800;">${bfData.remain}개</span><br><br>
+                                <a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; padding:8px 12px; background:#1d4ed8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 지금 바로 신청하기</a>
+                            </div>`;
+                        }
+                    } else {
+                        finalAnswer = `🍙 <b>천원의 아침밥 안내</b><br><br>단돈 1,000원으로 든든하고 따뜻한 아침을 챙겨드세요! 💛<br>오늘의 메뉴와 운영 시간 등 자세한 안내는 아래 전용 페이지에서 확인하실 수 있습니다.<br><br><a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 12px; background:#1a3fa8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 천원의 아침밥 확인하기</a>`;
+                    }
+                } catch (err) {
+                    finalAnswer = `🍙 <b>천원의 아침밥 안내</b><br><br>실시간 데이터를 불러오지 못했습니다. 아래 페이지에서 확인해 주세요.<br><br><a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 12px; background:#1a3fa8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 천원의 아침밥 확인하기</a>`;
                 }
-            } catch (err) {
-                finalAnswer = `🍙 <b>천원의 아침밥 안내</b><br><br>실시간 데이터를 불러오지 못했습니다. 아래 페이지에서 확인해 주세요.<br><br><a href="https://student378.github.io/yuhan-breakfast/" target="_blank" style="display:inline-block; margin-top:8px; padding:6px 12px; background:#1a3fa8; color:#fff; border-radius:8px; text-decoration:none; font-size:13px; font-weight:bold;">👉 천원의 아침밥 확인하기</a>`;
             }
 
         // ── 4. 일반 KB 검색 ──
@@ -4228,6 +4476,24 @@ document.getElementById('cbTxt')?.addEventListener('focus', () => {
     }, 300);
 });
 // ═══════════════════════════════════════════════
+// 🍙 천원의 아침밥 칩 버튼 핸들러
+async function handleBreakfastClick() {
+  if (!isBreakfastOpen()) {
+    showBreakfastClosedModal();
+    return;
+  }
+  // 운영시간 내: 잔여수량 먼저 확인
+  try {
+    const data = await fetchBreakfastLive();
+    _bfLastData = data;
+    if (data && data.status === 'ok' && data.remain <= 0) {
+      showBreakfastSoldOutModal();
+      return;
+    }
+  } catch(e) {}
+  cbAsk('천원의 아침밥');
+}
+
 // 🍙 천원의 아침밥 실시간 데이터 호출 함수
 // ═══════════════════════════════════════════════
 function fetchBreakfastLive() {
@@ -4314,6 +4580,16 @@ function cbLogToSheet(question, answerHtml) {
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question, answerType: answerType })
+    }).catch(() => {});
+}
+
+// ── 📊 탭 클릭 로그 전송 함수 ──
+function tabLogToSheet(menuName) {
+    fetch(GAS_LOG_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tabClick: true, menu_name: menuName })
     }).catch(() => {});
 }</script>
 
