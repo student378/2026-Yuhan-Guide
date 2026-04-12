@@ -4591,7 +4591,25 @@ function tabLogToSheet(menuName) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tabClick: true, menu_name: menuName })
     }).catch(() => {});
-}</script>
+}
+// ── 📊 방문자 로그 전송 함수 ──
+function pageViewLog() {
+    fetch(GAS_LOG_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            pageView: true,
+            userAgent: navigator.userAgent
+        })
+    }).catch(() => {});
+}
+
+// 페이지 열릴 때 자동 실행
+window.addEventListener('load', function() {
+    pageViewLog();
+});
+</script>
 
 <div class="footer">
   <div class="footer-links">
