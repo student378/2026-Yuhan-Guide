@@ -2642,7 +2642,48 @@
     
     // 페이지 상단으로 스크롤
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // ✅ 탭 클릭 로그 전송 (GAS + GA4)
+    logTabClick(id);
   }
+
+// ── 탭 ID → 한글명 매핑 ──
+const TAB_NAME_MAP = {
+  'haksa':    '학사안내',
+  'jangha':   '장학_학자금',
+  'service':  '학생서비스',
+  'facility': '편의시설',
+  'etc':      '기타안내',
+  'smoke':    '흡연구역',
+  'campus':   '캠퍼스안내',
+  'founder':  '설립자유일한',
+  'wellness': '웰니스현황',
+  'mbti':     '캠퍼스MBTI',
+  'ejchul':   '전자출결',
+  'gongjul':  '공결안내',
+  'chatbot':  'AI챗봇',
+};
+
+// ── 탭 클릭 로그 전송 함수 ──
+function logTabClick(id) {
+  const menuName = TAB_NAME_MAP[id];
+  if (!menuName) return;
+
+  // ① GAS 시트 기록 (tab_click 시트)
+  fetch(GAS_LOG_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tabClick: true, menu_name: menuName })
+  }).catch(() => {});
+
+  // ② GA4 이벤트 전송
+  if (typeof gtag === 'function') {
+    gtag('event', 'tab_click', {
+      'tab_name': menuName
+    });
+  }
+}
 
 function toggleAccordion(btn) {
   const body = btn.nextElementSibling;
@@ -4582,7 +4623,25 @@ function cbLogToSheet(question, answerHtml) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question, answerType: answerType })
     }).catch(() => {});
-}</script>
+}
+
+// ── 📊 방문자 로그 전송 함수 ──
+function pageViewLog() {
+    fetch(GAS_LOG_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            pageView: true,
+            userAgent: navigator.userAgent
+        })
+    }).catch(() => {});
+}
+
+// 페이지 열릴 때 자동 실행
+window.addEventListener('load', function() {
+    pageViewLog();
+});</script>
 
 <div class="footer">
   <div class="footer-links">
