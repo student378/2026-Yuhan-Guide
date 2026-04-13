@@ -825,19 +825,19 @@
 
   <div class="tabs-wrap">
     <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('haksa', this); gtag('event', 'tab_click', {'menu_name': '학사안내'}); tabLogToSheet('학사안내');">🎓 학사안내</button>
-      <button class="tab-btn" onclick="showTab('jangha', this); gtag('event', 'tab_click', {'menu_name': '장학_학자금'}); tabLogToSheet('장학_학자금');">💰 장학·학자금</button>
-      <button class="tab-btn" onclick="showTab('service', this); gtag('event', 'tab_click', {'menu_name': '학생서비스'}); tabLogToSheet('학생서비스');">🛎 학생서비스</button>
-      <button class="tab-btn" onclick="showTab('facility', this); gtag('event', 'tab_click', {'menu_name': '편의시설'}); tabLogToSheet('편의시설');">🏢 편의시설</button>
-      <button class="tab-btn" onclick="showTab('etc', this); gtag('event', 'tab_click', {'menu_name': '기타안내'}); tabLogToSheet('기타안내');">📋 기타안내</button>
-      <button class="tab-btn" onclick="showTab('smoke', this); gtag('event', 'tab_click', {'menu_name': '흡연구역'}); tabLogToSheet('흡연구역');">🚬 흡연구역</button>
-      <button class="tab-btn" onclick="showTab('campus', this); gtag('event', 'tab_click', {'menu_name': '캠퍼스안내'}); tabLogToSheet('캠퍼스안내');">🗺️ 캠퍼스안내</button>
-      <button class="tab-btn" onclick="showTab('founder', this); gtag('event', 'tab_click', {'menu_name': '설립자유일한'}); tabLogToSheet('설립자유일한');">👨‍💼 설립자 유일한</button>
-      <button class="tab-btn" onclick="showTab('wellness', this); initWellness(); gtag('event', 'tab_click', {'menu_name': '웰니스현황'}); tabLogToSheet('웰니스현황');">🏋️ 웰니스현황</button>
-      <button class="tab-btn" onclick="showTab('mbti', this); gtag('event', 'tab_click', {'menu_name': '캠퍼스MBTI'}); tabLogToSheet('캠퍼스MBTI');">🧠 캠퍼스 MBTI</button>
-      <button class="tab-btn" onclick="showTab('ejchul', this); gtag('event', 'tab_click', {'menu_name': '전자출결'}); tabLogToSheet('전자출결');">📱 전자출결</button>
-      <button class="tab-btn" onclick="showTab('gongjul', this); gtag('event', 'tab_click', {'menu_name': '공결안내'}); tabLogToSheet('공결안내');">✅ 공결안내</button>
-      <button class="tab-btn" onclick="showTab('chatbot', this); gtag('event', 'tab_click', {'menu_name': 'AI챗봇'}); tabLogToSheet('AI챗봇');">🤖 AI챗봇</button>
+      <button class="tab-btn active" onclick="showTab('haksa', this)">🎓 학사안내</button>
+      <button class="tab-btn" onclick="showTab('jangha', this)">💰 장학·학자금</button>
+      <button class="tab-btn" onclick="showTab('service', this)">🛎 학생서비스</button>
+      <button class="tab-btn" onclick="showTab('facility', this)">🏢 편의시설</button>
+      <button class="tab-btn" onclick="showTab('etc', this)">📋 기타안내</button>
+      <button class="tab-btn" onclick="showTab('smoke', this)">🚬 흡연구역</button>
+      <button class="tab-btn" onclick="showTab('campus', this)">🗺️ 캠퍼스안내</button>
+      <button class="tab-btn" onclick="showTab('founder', this)">👨‍💼 설립자 유일한</button>
+      <button class="tab-btn" onclick="showTab('wellness', this); initWellness();">🏋️ 웰니스현황</button>
+      <button class="tab-btn" onclick="showTab('mbti', this)">🧠 캠퍼스 MBTI</button>
+      <button class="tab-btn" onclick="showTab('ejchul', this)">📱 전자출결</button>
+      <button class="tab-btn" onclick="showTab('gongjul', this)">✅ 공결안내</button>
+      <button class="tab-btn" onclick="showTab('chatbot', this)">🤖 AI챗봇</button>
     </div>
   </div>
 
@@ -3276,11 +3276,11 @@ const deptDB = {
     "방송연예전공":          { loc:"5호관", phone:"02-2610-0929", aliases:["방송연예","연예","방연"] },
     // ── 보건/의료계열 ──
     "식품영양학과":          { loc:"1호관", phone:"02-2610-0868", aliases:["식영","식품영양","식영과"] },
-    "보건의료행정학과":        { loc:"5호관", phone:"02-2610-0935", aliases:["보건행정","의료행정","보건의료","보의행"] },
+    "보건의료행정학과":        { loc:"5호관", phone:"02-2610-0935", aliases:["보건행정","의료행정","보건의료","보의행","보행"] },
     "작업치료과":           { loc:"1호관", phone:"02-2610-0714", aliases:["작업치료","작치"] },
-    "반려동물보건학과":        { loc:"3호관", phone:"02-2610-0759", aliases:["반려동물","반려동물보건","펫보건","동물보건"] },
+    "반려동물보건학과":        { loc:"3호관", phone:"02-2610-0759", aliases:["반려동물","반려동물보건","펫보건","동물보건","반동"] },
     "응급구조과":           { loc:"2호관", phone:"02-2610-0795", aliases:["응급구조","응구"] },
-    "치위생과":            { loc:"3호관", phone:"02-2610-0754", aliases:["치위생","치과위생"] },
+    "치위생과":            { loc:"3호관", phone:"02-2610-0754", aliases:["치위생","치과위생","치위"] },
     "유한생명바이오학과":       { loc:"5호관", phone:"02-2610-0873", aliases:["바이오","생명바이오","유한바이오"] },
     "유한바이오제약전공":       { loc:"5호관", phone:"02-2610-0873", aliases:["제약","바이오제약","제약전공"] },
     "유한생명화공전공":        { loc:"5호관", phone:"02-2610-0873", aliases:["화공","생명화공","화공전공"] },
@@ -3509,9 +3509,8 @@ const localKB = [
             '• <b>Q. 등록금 관련 궁금한 사항을 어디에서 확인 가능한가요?</b><br>' +
             '  A. 유한대학교 홈페이지(https://www.yuhan.ac.kr) 공지사항에서 확인하세요. (유한대학교 대학 홈페이지 > 유한광장 > 캠퍼스공지 > 공지사항)<br><br>' +
             '📞 <strong>업무별 문의처 안내</strong><br>' +
-            '• <b>등록금 (총무회계팀) :</b> T. 02-2610-0464<br>' +
-            '• <b>장학금 / 학자금대출 (학생복지팀) :</b> T. 02-2610-0332<br>' +
-            '• <b>국가근로장학 / 교내봉사장학 (학생복지팀) :</b> T. 02-2610-0331<br>' +
+            '• <b>등록금 (총무회계팀) :</b> T. 02-2610-0463, 02-2610-0462<br>' +
+            '• <b>장학금 / 학자금대출 (학생복지팀) :</b> T. 02-2610-0332, 02-2610-0331<br>' +
             '• <b>학사 안내(휴복학/재입학 등) (학사지원팀) :</b> T. 02-2610-0314, 02-2610-0313' +
             '</div>'
   },
@@ -4235,8 +4234,8 @@ function findEnhancedAnswer(userInput) {
         : '';
 
     return `<div style="background:#fff3e8; padding:14px; border-radius:12px; border-left:4px solid var(--orange); font-size:12.5px; line-height:1.6; color:#7a2e00;">
-        🤔 <strong>앗, 정확히 찾지 못했어요!(챗봇은 대학생활안내 범위내에서 답변을 드려서 한계가 있으니 양해해주세요~😊 </strong><br><br>
-        아래처럼 핵심 단어로 다시 질문해 주세요~다음에는 학습해서 꼭 답변드릴께요~ 😊<br>
+        🤔 <strong>앗, 정확히 찾지 못했어요!</strong><br><br>
+        아래처럼 핵심 단어로 다시 질문해 주세요 😊<br>
         <span style="color:#555; font-size:11.5px;">예: <em>장학금, 수강신청, 기계공학과, 보건실, 도서관, 휴학</em> 등</span>
         ${hintStr}
     </div>`;
@@ -4582,35 +4581,7 @@ function cbLogToSheet(question, answerHtml) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: question, answerType: answerType })
     }).catch(() => {});
-}
-
-// ── 📊 탭 클릭 로그 전송 함수 ──
-function tabLogToSheet(menuName) {
-    fetch(GAS_LOG_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tabClick: true, menu_name: menuName })
-    }).catch(() => {});
-}
-// ── 📊 방문자 로그 전송 함수 ──
-function pageViewLog() {
-    fetch(GAS_LOG_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            pageView: true,
-            userAgent: navigator.userAgent
-        })
-    }).catch(() => {});
-}
-
-// 페이지 열릴 때 자동 실행
-window.addEventListener('load', function() {
-    pageViewLog();
-});
-</script>
+}</script>
 
 <div class="footer">
   <div class="footer-links">
