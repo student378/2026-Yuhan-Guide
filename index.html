@@ -2702,11 +2702,50 @@ function toggleAccordion(btn) {
   // 🧠 캠퍼스 MBTI 로직
   // ═══════════════════════════════════════════════
   const mbtiQ = [
-      { q: "갑자기 2시간 공강이 생겼다! 나의 선택은?", a: { text: "웰니스스테이션 탁구장이나 코노로 달려간다! 🎤", type: "E" }, b: { text: "유일한기념관 콰이어트존에서 조용히 쉰다. 🎧", type: "I" } },
-      { q: "출출한 오후, 간식이 땡길 때 나는?", a: { text: "5호관 편의점으로 가서 늘 먹던 최애 간식 픽! 🍫", type: "S" }, b: { text: "카페 1847에서 안 먹어본 새로운 음료 도전! ☕", type: "N" } },
-      { q: "친구가 '나 과제 하느라 너무 피곤해ㅠㅠ' 할 때?", a: { text: "'보건실 가서 잠깐 침대에서 쉬어!' (해결책 제시) 💊", type: "T" }, b: { text: "'진짜 고생했다ㅠㅠ 학생식당 가서 맛있는 거 먹자!' (공감) 🍲", type: "F" } },
-      { q: "다음 주가 중간고사다! 지금 나의 상태는?", a: { text: "도서관 열람실에 미리 자리 잡고 계획대로 공부 중! 📚", type: "J" }, b: { text: "학생회관 잡카페에서 일단 노트북은 켰는데... 딴짓 중 😂", type: "P" } }
-  ];
+  // ── E / I 축 ──
+  { q: "갑자기 2시간 공강이 생겼다! 나의 선택은?",
+    a: { text: "웰니스스테이션 탁구장이나 코노로 달려간다! 🎤", type: "E" },
+    b: { text: "유일한기념관 콰이어트존에서 조용히 쉰다. 🎧", type: "I" } },
+  { q: "과 단톡방에 '이번 주 금요일 뒷풀이 ㄱ?' 메시지가 떴다!",
+    a: { text: "바로 'ㅇㅇㅇ' 연타! 사람 많이 만나야 에너지 충전되지 🙌", type: "E" },
+    b: { text: "고민하다가 '일 있어서…' 정중히 패스. 혼자 쉬는 게 더 좋아 😌", type: "I" } },
+  { q: "조별과제 팀이 꾸려졌다. 첫 회의에서 나는?",
+    a: { text: "적극적으로 아이디어를 먼저 꺼내며 분위기를 주도한다 💬", type: "E" },
+    b: { text: "일단 다른 사람들 얘기 다 들은 뒤 신중하게 의견을 낸다 🤔", type: "I" } },
+
+  // ── S / N 축 ──
+  { q: "출출한 오후, 간식이 땡길 때 나는?",
+    a: { text: "5호관 편의점으로 가서 늘 먹던 최애 간식 픽! 🍫", type: "S" },
+    b: { text: "카페 1847에서 안 먹어본 새로운 음료 도전! ☕", type: "N" } },
+  { q: "수업 시간에 교수님이 '자유롭게 발표 주제 정하세요' 하셨다!",
+    a: { text: "검색해서 자료가 많고 확실한 주제로 안전하게 픽! 🔍", type: "S" },
+    b: { text: "평소에 관심 있던 독창적인 아이디어로 승부! ✨", type: "N" } },
+  { q: "캠퍼스를 걸을 때 나는 주로?",
+    a: { text: "오늘 날씨, 주변 풍경, 지나가는 사람들을 꼼꼼히 관찰한다 👀", type: "S" },
+    b: { text: "머릿속으로 이런저런 상상·계획을 하며 딴생각에 빠진다 💭", type: "N" } },
+
+  // ── T / F 축 ──
+  { q: "친구가 '나 과제 하느라 너무 피곤해ㅠㅠ' 할 때?",
+    a: { text: "'보건실 가서 잠깐 침대에서 쉬어!' (해결책 제시) 💊", type: "T" },
+    b: { text: "'진짜 고생했다ㅠㅠ 학생식당 가서 맛있는 거 먹자!' (공감) 🍲", type: "F" } },
+  { q: "조별과제에서 한 팀원이 자꾸 약속을 어긴다면?",
+    a: { text: "팀 전체에 영향을 주니까 냉정하게 역할 재분배를 요청한다 ⚡", type: "T" },
+    b: { text: "개인적으로 따로 만나 무슨 사정이 있는지 먼저 물어본다 💛", type: "F" } },
+  { q: "기말고사 성적이 기대보다 낮게 나왔다! 첫 반응은?",
+    a: { text: "'어디서 틀렸지? 분석해서 다음엔 같은 실수 안 해야지' 🧐", type: "T" },
+    b: { text: "'열심히 했는데 속상하다ㅠ 친구한테 전화해서 하소연해야지' 😢", type: "F" } },
+
+  // ── J / P 축 ──
+  { q: "다음 주가 중간고사다! 지금 나의 상태는?",
+    a: { text: "도서관 열람실에 미리 자리 잡고 계획대로 공부 중! 📚", type: "J" },
+    b: { text: "학생회관 잡카페에서 일단 노트북은 켰는데... 딴짓 중 😂", type: "P" } },
+  { q: "친구들이랑 주말에 놀기로 했다! 나는?",
+    a: { text: "장소·시간·메뉴 미리 다 정해두고 당일엔 계획대로 딱딱 움직인다 🗓️", type: "J" },
+    b: { text: "당일에 모여서 즉흥으로 결정하는 게 더 재밌어! 그냥 가자 🚀", type: "P" } },
+  { q: "학기 초 시간표 수강신청, 나의 스타일은?",
+    a: { text: "개강 전에 전략적으로 완벽한 시간표 완성! 빈틈없이 짠다 ✅", type: "J" },
+    b: { text: "일단 듣고 싶은 거 넣고, 수강정정 기간에 천천히 조정하지 뭐 😎", type: "P" } }
+];
 
   // 16가지 MBTI 모든 유형의 캠퍼스 테마 결과 추가
   const mbtiRes = {
@@ -2731,17 +2770,31 @@ function toggleAccordion(btn) {
   let curQ=0, scores={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
 
   function startMbti() { curQ=0; scores={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0}; renderMbtiQ(); }
-  function renderMbtiQ() {
-      const box = document.getElementById('mbti-content');
-      if(curQ >= mbtiQ.length) { showMbtiResult(); return; }
-      const q = mbtiQ[curQ];
-      box.innerHTML = `
-          <div style="font-size:13px; color:var(--blue); font-weight:900; margin-bottom:10px;">Q${curQ+1}.</div>
-          <h3 style="font-size:15px; margin-bottom:24px; line-height:1.5; color:#333; word-break:keep-all;">${q.q}</h3>
-          <button onclick="answerMbti('${q.a.type}')" style="display:block; width:100%; background:#f8f9ff; border:1.5px solid #dde3ff; padding:16px; border-radius:14px; margin-bottom:12px; font-size:13px; text-align:left; cursor:pointer;">${q.a.text}</button>
-          <button onclick="answerMbti('${q.b.type}')" style="display:block; width:100%; background:#f8f9ff; border:1.5px solid #dde3ff; padding:16px; border-radius:14px; font-size:13px; text-align:left; cursor:pointer;">${q.b.text}</button>
-      `;
-  }
+ function renderMbtiQ() {
+    const box = document.getElementById('mbti-content');
+    if(curQ >= mbtiQ.length) { showMbtiResult(); return; }
+    const q = mbtiQ[curQ];
+    const total = mbtiQ.length;
+    const pct = Math.round((curQ / total) * 100);
+    const axisLabel = curQ < 3 ? '에너지 방향 · E / I' :
+                      curQ < 6 ? '인식 기능 · S / N' :
+                      curQ < 9 ? '판단 기능 · T / F' : '생활 양식 · J / P';
+    box.innerHTML = `
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:11px; color:var(--blue); font-weight:700;">${axisLabel}</span>
+            <span style="font-size:11px; color:var(--muted);">${curQ+1} / ${total}</span>
+          </div>
+          <div style="background:#eef0f8; border-radius:99px; height:6px; overflow:hidden;">
+            <div style="background:var(--blue); height:6px; border-radius:99px; width:${pct}%; transition:width .3s;"></div>
+          </div>
+        </div>
+        <div style="font-size:13px; color:var(--blue); font-weight:900; margin-bottom:8px;">Q${curQ+1}.</div>
+        <h3 style="font-size:15px; margin-bottom:24px; line-height:1.5; color:#333; word-break:keep-all;">${q.q}</h3>
+        <button onclick="answerMbti('${q.a.type}')" style="display:block; width:100%; background:#f8f9ff; border:1.5px solid #dde3ff; padding:16px; border-radius:14px; margin-bottom:12px; font-size:13px; text-align:left; cursor:pointer; line-height:1.5;">${q.a.text}</button>
+        <button onclick="answerMbti('${q.b.type}')" style="display:block; width:100%; background:#f8f9ff; border:1.5px solid #dde3ff; padding:16px; border-radius:14px; font-size:13px; text-align:left; cursor:pointer; line-height:1.5;">${q.b.text}</button>
+    `;
+}
   function answerMbti(type) { scores[type]++; curQ++; renderMbtiQ(); }
   
   // 16가지 결과와 정확히 매칭되도록 함수 수정
