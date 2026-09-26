@@ -841,6 +841,7 @@
       <button class="tab-btn" onclick="showTab('mbti', this)">🧠 캠퍼스 MBTI</button>
       <button class="tab-btn" onclick="showTab('ejchul', this)">📱 전자출결</button>
       <button class="tab-btn" onclick="showTab('gongjul', this)">✅ 공결안내</button>
+      <button class="tab-btn" onclick="showTab('notice', this); loadNotices();">📢 공지사항</button>
       <button class="tab-btn" onclick="showTab('chatbot', this)">🤖 AI챗봇</button>
     </div>
   </div>
@@ -2558,6 +2559,16 @@
         </a>
       </div>
     </div>
+  </div>
+</div>
+
+<div id="notice" class="section">
+  <div class="section-title">
+    <span class="icon" style="background:#fde8ef;color:var(--pink);">📢</span>
+    공지사항
+  </div>
+  <div class="card">
+    <div id="noticeList"><p style="text-align:center;color:#999;padding:20px 0;font-size:12.5px;">공지사항을 불러오는 중...</p></div>
   </div>
 </div>
 
@@ -4623,6 +4634,93 @@ function fetchBreakfastLive() {
 // ── 📊 구글 시트 질문 로그 전송 함수 ──
 // ✅ 아래 GAS_LOG_URL에 챗봇 로그용 Apps Script 배포 URL을 입력하세요
 const GAS_LOG_URL = 'https://script.google.com/macros/s/AKfycbyH6B8x4HQH-XGx8Y_x_It9FXncJvir0rL2Pgs5evN7DgG-sKRlkeY0pkmHgd9xaUDNPA/exec';
+
+// ═══════════════════════════════════════════════
+// 📢 공지사항 (JSONP로 공개 목록 조회)
+// ═══════════════════════════════════════════════
+let _noticesCache = [];
+let _noticeViewedIds = new Set();
+
+function escNotice(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function loadNotices() {
+  const listEl = document.getElementById('noticeList');
+  if (!listEl) return;
+  listEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px 0;font-size:12.5px;">공지사항을 불러오는 중...</p>';
+
+  const cbName = 'cb_notice_' + Date.now();
+  const script = document.createElement('script');
+  const timeout = setTimeout(() => {
+    delete window[cbName];
+    if (document.body.contains(script)) document.body.removeChild(script);
+    listEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px 0;font-size:12.5px;">공지사항을 불러오지 못했습니다.</p>';
+  }, 6000);
+
+  window[cbName] = function(data) {
+    clearTimeout(timeout);
+    delete window[cbName];
+    if (document.body.contains(script)) document.body.removeChild(script);
+    _noticesCache = data || [];
+    renderNotices();
+  };
+
+  script.src = `${GAS_LOG_URL}?sheet=notice&callback=${cbName}`;
+  document.body.appendChild(script);
+}
+
+function renderNotices() {
+  const listEl = document.getElementById('noticeList');
+  if (!listEl) return;
+  if (!_noticesCache.length) {
+    listEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px 0;font-size:12.5px;">등록된 공지사항이 없습니다.</p>';
+    return;
+  }
+  const badgeClass = { '긴급':'badge-pink', '중요':'badge-orange', '일반':'badge-blue' };
+  listEl.innerHTML = _noticesCache.map((n, i) => {
+    const cls = badgeClass[n.importance] || 'badge-blue';
+    const thumb = n.imageUrl ? `<img src="${escNotice(n.imageUrl)}" style="width:100%;border-radius:10px;margin-top:8px;max-height:150px;object-fit:cover;">` : '';
+    return `
+      <div style="padding:12px 0;border-bottom:1px solid #f0f4f8;cursor:pointer;" onclick="openNoticeDetail(${i})">
+        <div style="font-size:13.5px;font-weight:700;color:var(--text);line-height:1.5;">
+          <span class="badge ${cls}">${escNotice(n.importance)}</span>${escNotice(n.title)}
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:5px;">${escNotice(n.startDate)} · 조회 ${n.views || 0}</div>
+        ${thumb}
+      </div>`;
+  }).join('');
+  const last = listEl.lastElementChild;
+  if (last) last.style.borderBottom = 'none';
+}
+
+function openNoticeDetail(i) {
+  const n = _noticesCache[i];
+  if (!n) return;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:16px;max-width:420px;width:100%;max-height:78vh;overflow-y:auto;padding:20px;">
+      <div style="font-size:15.5px;font-weight:800;color:var(--blue);margin-bottom:6px;">${escNotice(n.title)}</div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">${escNotice(n.startDate)}${n.endDate ? ' ~ ' + escNotice(n.endDate) : ' ~ 무기한'}</div>
+      ${n.imageUrl ? `<img src="${escNotice(n.imageUrl)}" style="width:100%;border-radius:10px;margin-bottom:12px;">` : ''}
+      <div style="font-size:13px;line-height:1.75;white-space:pre-wrap;color:#333;">${escNotice(n.content)}</div>
+      <button id="noticeCloseBtn" style="margin-top:16px;width:100%;padding:11px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;">닫기</button>
+    </div>`;
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#noticeCloseBtn').addEventListener('click', () => overlay.remove());
+  document.body.appendChild(overlay);
+
+  if (!_noticeViewedIds.has(n.id)) {
+    _noticeViewedIds.add(n.id);
+    fetch(GAS_LOG_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'noticeView', id: n.id })
+    }).catch(() => {});
+  }
+}
 
 // 변경 후 (16개 분류)
 function cbLogToSheet(question, answerHtml) {
