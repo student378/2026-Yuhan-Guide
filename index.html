@@ -4652,19 +4652,28 @@ function loadNotices() {
 
   const cbName = 'cb_notice_' + Date.now();
   const script = document.createElement('script');
-  const timeout = setTimeout(() => {
-    delete window[cbName];
-    if (document.body.contains(script)) document.body.removeChild(script);
-    listEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px 0;font-size:12.5px;">공지사항을 불러오지 못했습니다.</p>';
-  }, 6000);
+  let finished = false;
 
+  const showFail = (reason) => {
+    if (finished) return;
+    listEl.innerHTML = `<div style="text-align:center;padding:20px 0;">
+      <p style="color:#999;font-size:12.5px;margin-bottom:10px;">공지사항을 불러오지 못했습니다.<br><span style="font-size:11px;">(${reason})</span></p>
+      <button onclick="loadNotices()" style="padding:8px 18px;border:none;border-radius:20px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;">다시 시도</button>
+    </div>`;
+  };
+
+  // 응답이 늦게 도착해도 표시되도록 콜백은 유지 (GAS 첫 호출은 느릴 수 있음)
   window[cbName] = function(data) {
+    finished = true;
     clearTimeout(timeout);
-    delete window[cbName];
-    if (document.body.contains(script)) document.body.removeChild(script);
-    _noticesCache = data || [];
+    if (script.parentNode) script.parentNode.removeChild(script);
+    if (data && data.error) { finished = false; showFail('서버 오류: ' + data.error); return; }
+    _noticesCache = Array.isArray(data) ? data : [];
     renderNotices();
   };
+
+  const timeout = setTimeout(() => showFail('응답 시간 초과'), 20000);
+  script.onerror = () => { clearTimeout(timeout); showFail('네트워크 연결 오류'); };
 
   script.src = `${GAS_LOG_URL}?sheet=notice&callback=${cbName}`;
   document.body.appendChild(script);
