@@ -35,6 +35,7 @@
     --text-muted: #666;
     --radius: 14px;
     --shadow: 0 2px 12px rgba(26,63,168,0.10);
+    --purple: #8b5cf6;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -2688,6 +2689,7 @@ const TAB_NAME_MAP = {
   'mbti':     '캠퍼스MBTI',
   'ejchul':   '전자출결',
   'gongjul':  '공결안내',
+  'notice':   '공지사항',
   'chatbot':  'AI챗봇',
 };
 
@@ -3004,7 +3006,7 @@ function initWellness(){
   setInterval(loadWellness, W_INTERVAL);
 }
 
-function wToday(){ return new Date().toISOString().split('T')[0]; }
+function wToday(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
 // [FIX 1] GAS CORS 리다이렉트 문제 → JSONP + fetch 이중 폴백
 function loadWellnessJsonp(dt){
@@ -3204,6 +3206,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <strong style="font-size:14px; display:block; margin-bottom:5px;">안녕하세요! 저는 유한봇입니다.</strong>
             <div style="margin-top:6px; margin-bottom:10px; font-size:12.5px; line-height:1.6; color:#e8f0ff; background:rgba(0,0,0,0.1); padding:8px 10px; border-radius:8px;">
                 💡 본 챗봇은 <strong>2026학년도 대학생활안내</strong> 내용을 기반으로 답변해 드립니다.<br>학사, 장학금, 편의시설, 캠퍼스 정보 등 무엇이든 물어보세요!
+            </div>
+            <div style="margin-bottom:10px; font-size:11.5px; line-height:1.55; color:#ffe9c7;">
+                🔒 서비스 개선을 위해 <strong>질문 내용(이름·학번 없이)</strong>이 기록됩니다. 학번·전화번호 등 개인정보는 입력하지 마세요.
             </div>
             <span class="cb-wbadge" onclick="cbAsk('웰니스스테이션 현재 이용현황 알려줘'); initWellness();">🏋️ 웰니스 실시간 현황 물어보기</span>
         `;
@@ -4376,7 +4381,7 @@ async function cbSend() {
 // 👇 [여기에 GA4 추적 코드를 추가!] 👇
     if (typeof gtag === 'function') {
         gtag('event', 'search', {
-            'search_term': q, // 학생이 입력한 질문 내용
+            'search_term': cbMask(q), // 학생이 입력한 질문 (연락처·학번 등은 가림)
             'content_type': 'chatbot_query'
         });
     }
@@ -4999,58 +5004,51 @@ function openNoticeDetail(i) {
 }
 
 // 변경 후 (16개 분류)
-function cbLogToSheet(question, answerHtml) {
-    if (GAS_LOG_URL.includes('여기에_')) return;
+// 질문 속 연락처·학번·이메일 가리기 (서버에서도 한 번 더 가림)
+function cbMask(t) {
+    return String(t || '')
+        .replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '[이메일]')
+        .replace(/01[016789][-\s.]?\d{3,4}[-\s.]?\d{4}/g, '[전화번호]')
+        .replace(/\d{6}[-\s]?[1-4]\d{6}/g, '[주민번호]')
+        .replace(/\d{8,10}/g, '[번호]');
+}
 
-    const q   = question.replace(/\s/g, '').toLowerCase();
-    const ans = answerHtml.replace(/<[^>]+>/g, '').trim();
-
-    let answerType = '기타';
+// 질문 + 답변 → 답변유형(대시보드·보고서 분류)
+function cbClassify(question, answerHtml) {
+    const q   = String(question).replace(/\s/g, '').toLowerCase();
+    const ans = String(answerHtml).replace(/<[^>]+>/g, '').trim();
+    const has = list => list.some(k => q.includes(k));
 
     // 1순위: 답변 내용으로 판별
-    if (ans.includes('정확히 찾지 못했어요') || ans.includes('다시 시도')) {
-        answerType = '답변실패';
-    } else if (ans.includes('사무실 안내') || ans.includes('전화번호') && ans.includes('위치')) {
-        answerType = '학과안내';
-    } else if (ans.includes('웰니스스테이션 실시간 현황')) {
-        answerType = '웰니스현황';
-    } else if (ans.includes('아침밥') || ans.includes('잔여 수량') || ans.includes('준비 수량')) {
-        answerType = '천원의아침밥';
+    if (ans.includes('정확히 찾지 못했어요') || ans.includes('오류가 발생했습니다')) return '답변실패';
+    if (ans.includes('사무실 안내') || (ans.includes('전화번호') && ans.includes('위치') && ans.includes('학과'))) return '학과안내';
+    if (ans.includes('웰니스스테이션 실시간 현황')) return '웰니스현황';
+    if (q.includes('천원매점') || ans.includes('천원매점')) return '천원매점';
+    if (ans.includes('아침밥') || ans.includes('잔여 수량') || ans.includes('준비 수량')) return '천원의아침밥';
 
-    // 2순위: 질문 키워드로 탭 분류
-    } else if (['수강신청','성적','졸업','휴학','복학','재수강','전과','재입학','자퇴','제적','학사일정','개강','종강','증명서','학점','출석','출결','전자출결','공결','예비군'].some(k => q.includes(k))) {
-        answerType = '학사안내';
-    } else if (['장학금','장학','국가장학','한국장학재단','장학금신청','저소득','등록금','납부','가상계좌','학자금','대출'].some(k => q.includes(k))) {
-        answerType = '장학·학자금';
-    } else if (['도서관','열람실','취업','창업','일자리','잡카페','모바일대출증','와이파이','wifi','인터넷','오피스','gsuite','증명서','발급'].some(k => q.includes(k))) {
-        answerType = '학생서비스';
-    } else if (['보건실','식당','학식','구내식당','카페','편의점','헬스장','탁구','노래방','코인노래방','인생네컷','웰니스','윌로우하우스','휴게공간'].some(k => q.includes(k))) {
-        answerType = '편의시설';
-    } else if (['동아리','학생회','자치위원회','대의원','상담','힐링카페','심리','모바일학생증','학생증','전화번호','연락처'].some(k => q.includes(k))) {
-        answerType = '기타안내';
-    } else if (['흡연','담배','금연','흡연구역'].some(k => q.includes(k))) {
-        answerType = '흡연구역';
-    } else if (['캠퍼스','건물','호관','길찾기','주차','지도'].some(k => q.includes(k))) {
-        answerType = '캠퍼스안내';
-    } else if (['유일한','설립자','창업자','유한양행','유일한박사'].some(k => q.includes(k))) {
-        answerType = '설립자유일한';
-    } else if (['mbti','테스트','성향','유형'].some(k => q.includes(k))) {
-        answerType = '캠퍼스MBTI';
-    } else if (['전자출결','출결앱','출석체크','출결기준'].some(k => q.includes(k))) {
-        answerType = '전자출결';
-    } else if (['공결','공결인정','예비군','민방위'].some(k => q.includes(k))) {
-        answerType = '공결안내';
-    } else if (['배고파','뭐먹지','식당','밥','점심','저녁','간식','메뉴','천원','아침밥'].some(k => q.includes(k))) {
-        answerType = '편의시설';
-    } else if (['힘들어','스트레스','우울','외로워','죽겠어','포기'].some(k => q.includes(k))) {
-        answerType = '기타안내';
-    }
+    // 2순위: 질문 키워드 (구체적인 것부터)
+    if (has(['전자출결','출결앱','출석체크','출결기준','출석기준','지각기준'])) return '전자출결';
+    if (has(['공결','예비군','민방위','출결정정','결석인정'])) return '공결안내';
+    if (has(['공지사항','공지'])) return '공지사항';
+    if (has(['흡연','담배','금연'])) return '흡연구역';
+    if (has(['유일한','설립자','유한양행'])) return '설립자유일한';
+    if (has(['mbti'])) return '캠퍼스MBTI';
+    if (has(['장학','국가장학','한국장학재단','저소득','등록금','납부','가상계좌','학자금','대출금','분할납부'])) return '장학·학자금';
+    if (has(['도서관','열람실','취업','창업','일자리','잡카페','대출증','와이파이','wifi','인터넷','오피스','gsuite','증명서','발급','휴면계정','계정'])) return '학생서비스';
+    if (has(['수강신청','성적','졸업','휴학','복학','재수강','전과','재입학','자퇴','제적','학사일정','개강','종강','학점','시험','출석','출결'])) return '학사안내';
+    if (has(['보건실','식당','학식','구내식당','메뉴','카페','편의점','헬스장','탁구','노래방','인생네컷','웰니스','휴게공간','배고','뭐먹','밥','점심','저녁','간식'])) return '편의시설';
+    if (has(['캠퍼스','건물','호관','길찾기','주차','지도','위치'])) return '캠퍼스안내';
+    if (has(['동아리','학생회','자치위원회','대의원','상담','힐링카페','심리','학생증','전화번호','연락처','힘들','스트레스','우울','외로','포기','홍보대사'])) return '기타안내';
+    return '기타';
+}
 
+function cbLogToSheet(question, answerHtml) {
+    if (!GAS_LOG_URL || GAS_LOG_URL.includes('여기에_')) return;
     fetch(GAS_LOG_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: question, answerType: answerType })
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ question: cbMask(question).slice(0, 300), answerType: cbClassify(question, answerHtml) })
     }).catch(() => {});
 }
 
