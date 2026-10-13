@@ -4917,40 +4917,61 @@ function escNotice(s) {
   return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-function loadNotices() {
+const NOTICE_CACHE_KEY = 'yb_notice_cache_v1';
+function readNoticeCache() {
+  try { const c = JSON.parse(localStorage.getItem(NOTICE_CACHE_KEY) || 'null'); return c && Array.isArray(c.list) ? c : null; } catch (e) { return null; }
+}
+function writeNoticeCache(list) {
+  try { localStorage.setItem(NOTICE_CACHE_KEY, JSON.stringify({ t: Date.now(), list })); } catch (e) {}
+}
+
+// quiet=true: 앱을 켤 때 화면 표시 없이 미리 받아 둠(공지 탭을 열면 바로 보이도록)
+function loadNotices(quiet, _retry) {
   const listEl = document.getElementById('noticeList');
   if (!listEl) return;
-  listEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px 0;font-size:12.5px;">공지사항을 불러오는 중...</p>';
+
+  // 이전에 받아 둔 목록이 있으면 먼저 바로 보여주고, 뒤에서 새로 받아 바꿈
+  const cached = readNoticeCache();
+  if (!_retry && cached && !_noticesCache.length) { _noticesCache = cached.list; renderNotices(); }
+  const hasShown = _noticesCache.length > 0;
+  if (!quiet && !hasShown) listEl.innerHTML = '<p style="text-align:center;color:#999;padding:20px 0;font-size:12.5px;">공지사항을 불러오는 중...</p>';
 
   const cbName = 'cb_notice_' + Date.now();
   const script = document.createElement('script');
   let finished = false;
+  let timeout;
 
-  const showFail = (reason) => {
+  const fail = (reason) => {
     if (finished) return;
+    finished = true; clearTimeout(timeout);
+    if (script.parentNode) script.parentNode.removeChild(script);
+    if (!_retry) { setTimeout(() => loadNotices(quiet, true), 1500); return; } // 한 번 자동 재시도
+    if (hasShown || quiet) return; // 저장해 둔 목록이 보이는 중이면 조용히 유지
     listEl.innerHTML = `<div style="text-align:center;padding:20px 0;">
       <p style="color:#999;font-size:12.5px;margin-bottom:10px;">공지사항을 불러오지 못했습니다.<br><span style="font-size:11px;">(${reason})</span></p>
       <button onclick="loadNotices()" style="padding:8px 18px;border:none;border-radius:20px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;">다시 시도</button>
     </div>`;
   };
 
-  // 응답이 늦게 도착해도 표시되도록 콜백은 유지 (GAS 첫 호출은 느릴 수 있음)
   window[cbName] = function(data) {
-    finished = true;
+    if (finished) return;
     clearTimeout(timeout);
     if (script.parentNode) script.parentNode.removeChild(script);
-    if (data && data.error) { finished = false; showFail('서버 오류: ' + data.error); return; }
+    if (data && data.error) { fail('서버 오류: ' + data.error); return; }
+    finished = true;
     _noticesCache = Array.isArray(data) ? data : [];
+    writeNoticeCache(_noticesCache);
     renderNotices();
   };
 
-  const timeout = setTimeout(() => showFail('응답 시간 초과'), 20000);
-  script.onerror = () => { clearTimeout(timeout); showFail('네트워크 연결 오류'); };
+  timeout = setTimeout(() => fail('응답 시간 초과'), 20000);
+  script.onerror = () => fail('네트워크 연결 오류');
 
   script.src = `${GAS_LOG_URL}?sheet=notice&callback=${cbName}`;
   document.body.appendChild(script);
 }
 
+// 목록은 제목만 간단히, 내용·이미지는 눌러서 확인
 function renderNotices() {
   const listEl = document.getElementById('noticeList');
   if (!listEl) return;
@@ -4961,35 +4982,48 @@ function renderNotices() {
   const badgeClass = { '긴급':'badge-pink', '중요':'badge-orange', '일반':'badge-blue' };
   listEl.innerHTML = _noticesCache.map((n, i) => {
     const cls = badgeClass[n.importance] || 'badge-blue';
-    const thumb = n.imageUrl ? `<img src="${escNotice(n.imageUrl)}" style="width:100%;border-radius:10px;margin-top:8px;max-height:150px;object-fit:cover;">` : '';
     return `
-      <div style="padding:12px 0;border-bottom:1px solid #f0f4f8;cursor:pointer;" onclick="openNoticeDetail(${i})">
-        <div style="font-size:13.5px;font-weight:700;color:var(--text);line-height:1.5;">
-          <span class="badge ${cls}">${escNotice(n.importance)}</span>${escNotice(n.title)}
+      <div style="padding:13px 2px;border-bottom:1px solid #f0f4f8;cursor:pointer;display:flex;align-items:center;gap:8px;" onclick="openNoticeDetail(${i})">
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13.5px;font-weight:700;color:var(--text);line-height:1.5;">
+            <span class="badge ${cls}">${escNotice(n.importance)}</span>${escNotice(n.title)}${n.imageUrl ? ' <span style="font-size:11px;color:var(--text-muted);font-weight:500;">🖼️</span>' : ''}
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">${escNotice(n.startDate)} · 조회 ${n.views || 0}</div>
         </div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:5px;">${escNotice(n.startDate)} · 조회 ${n.views || 0}</div>
-        ${thumb}
+        <span style="color:#b0b8c8;font-size:16px;">›</span>
       </div>`;
   }).join('');
   const last = listEl.lastElementChild;
   if (last) last.style.borderBottom = 'none';
 }
 
+// 이미지를 화면 가득 크게 (손가락으로 확대 가능)
+function openNoticeImage(url) {
+  const o = document.createElement('div');
+  o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1001;display:flex;align-items:center;justify-content:center;overflow:auto;touch-action:pan-x pan-y pinch-zoom;';
+  o.innerHTML = '<img alt="공지 이미지" style="max-width:100%;max-height:100%;object-fit:contain;"><button style="position:fixed;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:none;background:rgba(255,255,255,0.9);font-size:18px;font-weight:700;">✕</button>';
+  o.querySelector('img').src = url;
+  o.addEventListener('click', () => o.remove());
+  document.body.appendChild(o);
+}
+
 function openNoticeDetail(i) {
   const n = _noticesCache[i];
   if (!n) return;
   const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;display:flex;align-items:center;justify-content:center;padding:10px;';
   overlay.innerHTML = `
-    <div style="background:#fff;border-radius:16px;max-width:420px;width:100%;max-height:78vh;overflow-y:auto;padding:20px;">
+    <div style="background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:92vh;overflow-y:auto;padding:16px;">
       <div style="font-size:15.5px;font-weight:800;color:var(--blue);margin-bottom:6px;">${escNotice(n.title)}</div>
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">${escNotice(n.startDate)}${n.endDate ? ' ~ ' + escNotice(n.endDate) : ' ~ 무기한'}</div>
-      ${n.imageUrl ? `<img src="${escNotice(n.imageUrl)}" style="width:100%;border-radius:10px;margin-bottom:12px;">` : ''}
-      <div style="font-size:13px;line-height:1.75;white-space:pre-wrap;color:#333;">${escNotice(n.content)}</div>
-      <button id="noticeCloseBtn" style="margin-top:16px;width:100%;padding:11px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;">닫기</button>
+      ${n.imageUrl ? `<img id="noticeDetailImg" alt="공지 이미지" style="display:block;width:100%;height:auto;border-radius:10px;margin-bottom:6px;cursor:zoom-in;"><div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;text-align:center;">이미지를 누르면 크게 볼 수 있어요</div>` : ''}
+      <div style="font-size:13.5px;line-height:1.75;white-space:pre-wrap;color:#333;">${escNotice(n.content)}</div>
+      <button id="noticeCloseBtn" style="margin-top:16px;width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;">닫기</button>
     </div>`;
   overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
   overlay.querySelector('#noticeCloseBtn').addEventListener('click', () => overlay.remove());
+  const im = overlay.querySelector('#noticeDetailImg');
+  if (im) { im.src = n.imageUrl; im.addEventListener('click', () => openNoticeImage(n.imageUrl)); }
   document.body.appendChild(overlay);
 
   if (!_noticeViewedIds.has(n.id)) {
@@ -5002,6 +5036,9 @@ function openNoticeDetail(i) {
     }).catch(() => {});
   }
 }
+
+// 앱을 켜면 공지를 미리 받아 둠 (공지 탭을 열 때 기다리지 않도록)
+window.addEventListener('load', () => setTimeout(() => loadNotices(true), 300));
 
 // 변경 후 (16개 분류)
 // 질문 속 연락처·학번·이메일 가리기 (서버에서도 한 번 더 가림)
