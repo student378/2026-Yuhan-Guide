@@ -78,6 +78,19 @@
     filter: brightness(0) invert(1);
   }
   .header h1 { font-size: 18px; font-weight: 700; line-height: 1.2; }
+  /* 상단 실시간 잔여수량 칩 */
+  .header-top { flex-wrap: wrap; }
+  .live-chips { display: flex; gap: 6px; margin-left: auto; flex-shrink: 0; }
+  .live-chip { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 74px; padding: 5px 10px; border-radius: 12px; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28); line-height: 1.15; }
+  .live-chip .lc-name { font-size: 10px; color: #ccd9ff; font-weight: 600; white-space: nowrap; }
+  .live-chip .lc-val { font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; }
+  .live-chip .lc-sub { font-size: 9px; color: #ccd9ff; white-space: nowrap; }
+  .live-chip .lc-sub:empty { display: none; }
+  .live-chip.ok .lc-val { color: #86efac; }
+  .live-chip.low .lc-val { color: #fca5a5; }
+  .live-chip.out .lc-val { color: #fdba74; }
+  .live-chip.off .lc-val, .live-chip.err .lc-val { color: rgba(255,255,255,0.7); font-size: 12px; font-weight: 700; }
+  @media (max-width: 560px) { .live-chips { flex-basis: 100%; margin: 8px 0 0; } .live-chip { flex: 1; } }
   .header p { font-size: 11px; opacity: 1; color: #ccd9ff; margin-top: 2px; }
 
   /* TABS */
@@ -837,6 +850,10 @@
       <div>
         <h1>2026 슬기로운 유한대학 생활 안내</h1>
         <p>유한대학교 YUHAN UNIVERSITY</p>
+      </div>
+      <div class="live-chips" id="liveChips" aria-label="실시간 잔여수량">
+        <div class="live-chip off" id="liveChipBf"><span class="lc-name">🍱 천원의 아침밥</span><span class="lc-val">…</span><span class="lc-sub"></span></div>
+        <div class="live-chip off" id="liveChipStore"><span class="lc-name">🛒 천원매점</span><span class="lc-val">…</span><span class="lc-sub"></span></div>
       </div>
     </div>
   </div>
@@ -5039,6 +5056,57 @@ function openNoticeDetail(i) {
 
 // 앱을 켜면 공지를 미리 받아 둠 (공지 탭을 열 때 기다리지 않도록)
 window.addEventListener('load', () => setTimeout(() => loadNotices(true), 300));
+
+
+// ═══════════════════════════════════════════════
+// 상단 실시간 잔여수량 (천원의 아침밥 · 천원매점)
+//  · 아침밥은 운영일·운영 시간에만 서버 수치를 받아 표시, 그 외에는 "운영 외"
+//  · 매점은 매점 관리자 설정(운영일·시간·판매종료)과 오늘 신청 인원/예정 인원으로 계산 (현황 카드와 같은 값)
+//  · 수치는 현장 사정과 다를 수 있는 참고용
+// ═══════════════════════════════════════════════
+function chipSet(id, cls, text, title, sub) {
+  const e = document.getElementById(id); if (!e) return;
+  // 조회가 일시 실패했을 때, 이미 보이던 숫자는 지우지 않음
+  if (cls === 'err' && /\b(ok|low)\b/.test(e.className)) return;
+  e.className = 'live-chip ' + cls;
+  e.querySelector('.lc-val').textContent = text;
+  e.querySelector('.lc-sub').textContent = sub || '';
+  e.title = title || '';
+}
+async function refreshBreakfastChip() {
+  if (typeof BF_GAS_URL !== 'undefined' && !BF_GAS_URL) return;
+  try {
+    if (!isBreakfastOpen()) { chipSet('liveChipBf', 'off', '운영 외', '운영일·운영 시간에만 잔여수량이 표시됩니다'); return; }
+    const d = await fetchBreakfastLive();
+    if (d && d.status === 'ok' && isFinite(Number(d.remain))) {
+      _bfLastData = d;
+      const r = Number(d.remain);
+      const tot = Number(d.total);
+      const val = (isFinite(tot) ? tot : '?') + '/' + Math.max(0, r);   // 수량/잔여
+      if (r <= 0) chipSet('liveChipBf', 'out', val, '준비 ' + d.total + '개 · 신청 ' + d.sold + '건 · 잔여 없음', '소진');
+      else chipSet('liveChipBf', r <= 20 ? 'low' : 'ok', val, '준비 ' + d.total + '개 · 신청 ' + d.sold + '건 · 현장 사정에 따라 차이가 있을 수 있습니다', '수량/잔여');
+    } else chipSet('liveChipBf', 'err', '—', '불러오지 못했습니다');
+  } catch (e) { chipSet('liveChipBf', 'err', '—', ''); }
+}
+async function refreshStoreChip() {
+  if (typeof STORE_GAS_URL !== 'undefined' && !STORE_GAS_URL) return;
+  try {
+    const info = await fetchStoreLive();
+    if (!info || info.state === 'error') { chipSet('liveChipStore', 'err', '—', '불러오지 못했습니다'); return; }
+    if (info.state === 'closed_day' || info.state === 'closed_time') { chipSet('liveChipStore', 'off', '운영 외', '운영 시간: ' + info.startT + ' ~ ' + info.endT); return; }
+    if (info.state === 'ended') { chipSet('liveChipStore', 'out', '판매종료', ''); return; }
+    if (!info.hasLive || !info.showHeadcount || !(info.limit > 0)) { chipSet('liveChipStore', 'ok', '운영 중', info.startT + ' ~ ' + info.endT); return; }
+    if (info.count >= info.limit) { chipSet('liveChipStore', 'out', info.limit + '/0', '예정 ' + info.limit + '명 · 신청 ' + info.count + '명 (현장 재고에 따라 수령이 제한될 수 있음)', '초과 접수'); return; }
+    const rem = info.limit - info.count;
+    chipSet('liveChipStore', rem <= 10 ? 'low' : 'ok', info.limit + '/' + rem, '예정 ' + info.limit + '명 · 신청 ' + info.count + '명 · 현장 사정에 따라 차이가 있을 수 있습니다', '예정인원/잔여');
+  } catch (e) { chipSet('liveChipStore', 'err', '—', ''); }
+}
+function refreshHeaderChips() { refreshBreakfastChip(); refreshStoreChip(); }
+window.addEventListener('load', () => {
+  setTimeout(refreshHeaderChips, 800);
+  setInterval(() => { if (!document.hidden) refreshHeaderChips(); }, 60000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshHeaderChips(); });
+});
 
 // 변경 후 (16개 분류)
 // 질문 속 연락처·학번·이메일 가리기 (서버에서도 한 번 더 가림)
