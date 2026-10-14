@@ -3025,45 +3025,57 @@ function initWellness(){
 
 function wToday(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
-// [FIX 1] GAS CORS 리다이렉트 문제 → JSONP + fetch 이중 폴백
-function loadWellnessJsonp(dt){
+// 학생용 실시간 현황은 "집계용 공개 조회(getLive)"를 씁니다.
+//  · 서버가 getAll을 관리자 로그인 전용으로 막아 둔 경우에도 동작 (이름·학번 없이 상태·시설·룸·입실시간만 받음)
+//  · getLive가 없는 예전 서버(getAll 공개)면 자동으로 예전 방식 사용
+let W_JSONP_MS=8000;
+function wCallJsonp(qs){
   return new Promise((resolve,reject)=>{
-    const cbName='_wCb'+Date.now();
-    const qs=`action=getAll&from=${dt}&to=${dt}&pageSize=500&pageNum=1&callback=${cbName}`;
-    const timer=setTimeout(()=>{ delete window[cbName]; sc.remove(); reject(new Error('timeout')); },10000);
-    window[cbName]=(d)=>{ clearTimeout(timer); delete window[cbName]; sc.remove(); resolve(d); };
+    const cbName='_wCb'+Date.now()+Math.floor(Math.random()*1e5);
     const sc=document.createElement('script');
-    sc.src=W_URL+'?'+qs;
-    sc.onerror=()=>{ clearTimeout(timer); delete window[cbName]; reject(new Error('script error')); };
+    const timer=setTimeout(()=>{ delete window[cbName]; sc.remove(); reject(new Error('timeout')); },W_JSONP_MS);
+    window[cbName]=(d)=>{ clearTimeout(timer); delete window[cbName]; sc.remove(); resolve(d); };
+    sc.src=W_URL+'?'+qs+'&callback='+cbName;
+    sc.onerror=()=>{ clearTimeout(timer); delete window[cbName]; sc.remove(); reject(new Error('script error')); };
     document.head.appendChild(sc);
   });
+}
+async function wCall(qs,fetchOnly){
+  try{
+    if(fetchOnly) throw new Error('fetch only');
+    return await wCallJsonp(qs);                 // 1차: JSONP
+  }catch(jsonpErr){
+    if(!fetchOnly) console.warn('[Wellness] JSONP failed, trying fetch...',jsonpErr);
+    const res=await fetch(W_URL+'?'+qs,{redirect:'follow'});   // 2차: fetch
+    const txt=await res.text();
+    if(txt.trim().startsWith('<'))throw new Error('서버가 데이터 대신 안내 페이지를 돌려줬습니다 (배포 권한 확인 필요)');
+    return JSON.parse(txt);
+  }
+}
+function wShowError(reason){
+  const el=document.getElementById('w-kpi');
+  if(el) el.innerHTML='<div class="w-nodata" style="grid-column:span 2;color:#e8547a">⚠️ 데이터를 불러오지 못했습니다.<br>잠시 후 다시 시도해 주세요.'
+    +(reason?'<br><span style="font-size:10px;color:#999">('+String(reason).replace(/[<>&]/g,'')+')</span>':'')+'</div>';
 }
 
 async function loadWellness(){
   const dt=wToday();
-  const el=document.getElementById('w-kpi');
   try{
-    let d;
-    try{
-      // 1차: JSONP (CORS 리다이렉트 우회)
-      d=await loadWellnessJsonp(dt);
-    }catch(jsonpErr){
-      // 2차 폴백: fetch (동일 출처 or CORS 허용된 경우)
-      console.warn('[Wellness] JSONP failed, trying fetch...',jsonpErr);
-      const qs=`action=getAll&from=${dt}&to=${dt}&pageSize=500&pageNum=1`;
-      const res=await fetch(W_URL+'?'+qs,{redirect:'follow'});
-      const txt=await res.text();
-      if(txt.trim().startsWith('<'))throw new Error('서버오류');
-      d=JSON.parse(txt);
+    let d=await wCall('action=getLive');
+    if(d && d.success===false && /알 수 없는 action/.test(d.message||'')){
+      // getLive가 없는 예전 서버 → 예전 방식
+      d=await wCall(`action=getAll&from=${dt}&to=${dt}&pageSize=500&pageNum=1`,true);
     }
-    if(!d.success)throw new Error(d.message||'오류');
+    if(!d || !d.success){
+      throw new Error(d && d.auth===false ? '서버 업데이트 필요: 학생용 조회(getLive)가 아직 없습니다' : ((d&&d.message)||'오류'));
+    }
     const r=d.records||[];
     wData.pending=r.filter(x=>x.status==='승인대기');
     wData.using  =r.filter(x=>x.status==='승인완료');
     wData.exited =r.filter(x=>x.status==='퇴실완료');
     renderW();
   }catch(e){
-    if(el) el.innerHTML='<div class="w-nodata" style="grid-column:span 2;color:#e8547a">⚠️ 데이터를 불러오지 못했습니다.<br>네트워크를 확인해 주세요.</div>';
+    wShowError(e && e.message);
     console.error('[Wellness]',e);
   }
 }
